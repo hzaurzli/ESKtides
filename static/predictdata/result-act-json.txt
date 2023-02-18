@@ -1,0 +1,1 @@
+{"data": [{"ID": 1, "ORF": "SEHF1", "Sequence": "YRGLKWRLQWLLRKCRKLVQ", "Score": "0.99446720"}, {"ID": 2, "ORF": "SEHF1a", "Sequence": "WRGKKWRLQWLLRKCRKLVQ", "Score": "0.89949161"}, {"ID": 3, "ORF": "SEYT4", "Sequence": "RKQNWTEMCNRITDWDMGGKYRGLTIRKQSQSRESQ", "Score": "0.62874424"}]}

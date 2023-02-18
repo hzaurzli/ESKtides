@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 import time
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 from keras.models import load_model
 from numpy import loadtxt, savetxt
 import sys,os
@@ -7,13 +9,22 @@ from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///employee.db'
-# # app.config['SECRET_KEY'] = 'cairocoders-ednalan'
-#
-# db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ESKtides.db'
+# app.config['SECRET_KEY'] = 'cairocoders-ednalan'
+
+db = SQLAlchemy(app)
 
 app.jinja_env.variable_start_string = '%%'
 app.jinja_env.variable_end_string = '%%'
+
+####################################table
+class peptide(db.Model):
+    ID = db.Column(db.Integer, primary_key=True)
+    ORF = db.Column(db.String(200))
+    Activity = db.Column(db.Integer)
+    Level = db.Column(db.String(200))
+    Strains = db.Column(db.String(200))
+    Detail = db.Column(db.String(200))
 
 #################################### Router
 @app.route('/', methods=['get', 'post'])
@@ -54,6 +65,62 @@ def help():
     return render_template('help.html')
 
 #########################################ajax
+@app.route('/tides/', methods=['GET', 'POST'])
+def tides():
+    param = request.args.to_dict()
+    print(param)
+    page = param['start']
+    pageSize = 15
+    page_skip = int(page) * pageSize
+    tag = param['search[value]']
+    search = "%{}%".format(tag)
+    sortnum = param['order[0][column]']
+    dir_sort = param['order[0][dir]']
+    selection = param['columns[' + str(sortnum) + '][data]']
+    if tag == "":
+        if dir_sort == 'desc':
+            result_db = peptide.query.order_by(getattr(peptide, selection).desc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + 15]
+        else:
+            result_db = peptide.query.order_by(getattr(peptide, selection).asc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + 15]
+    else:
+        if dir_sort == 'desc':
+            result_db = peptide.query.filter(
+                or_(peptide.ID.like(search), peptide.ORF.like(search),
+                    peptide.Activity.like(search), peptide.Level.like(search),
+                    peptide.Strains.like(search),
+                    peptide.Detail.like(search))).order_by(
+                getattr(peptide, selection).desc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + 15]
+
+        else:
+            result_db = peptide.query.filter(
+                or_(peptide.ID.like(search), peptide.ORF.like(search),
+                    peptide.Activity.like(search), peptide.Level.like(search),
+                    peptide.Strains.like(search),
+                    peptide.Detail.like(search))).order_by(
+                getattr(peptide, selection).asc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + 15]
+
+    alldata = []
+    for one in result:
+        data = {"ID": one.ID, "ORF": one.ORF, "Activity": one.Activity, "Level": one.Level,
+                "Strains": one.Strains, "Detail": one.Detail}
+        alldata.append(data)
+    rst = {}
+    rst["draw"] = param["draw"]
+    rst["recordsTotal"] = count_num
+    rst["recordsFiltered"] = count_num
+    rst["data"] = alldata
+
+    return rst
+
+
 @app.route('/up_file/', methods=['GET', 'POST'])  # 接受并存储文件
 def up_file():
     if request.method == "POST":
@@ -65,8 +132,31 @@ def up_file():
 
         return rst
 
+@app.route('/propert_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
+def propert_up_file():
+    if request.method == "POST":
+        f = request.files['file']
+        print(f.filename)
+        f.save('./static/propert/' + f.filename)
+        time.sleep(3)
+        rst = propert('./static/propert/' + f.filename)
 
-@app.route('/ajax/')
+        return rst
+
+@app.route('/propert_input_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
+def propert_input_up_file():
+    if request.method == "GET":
+        with open('./static/propert/input.fa','w') as fa:
+            data = request.args.get('seq')
+            fa.write(data)
+        fa.close()
+
+        time.sleep(3)
+        rst = propert('./static/propert/input.fa')
+
+        return rst
+
+@app.route('/ajax_test/')
 def ajax():
     rst =  {"data":[
         { "ID": 0, "ORF": "c","Activity":10,"Level":"high","Strains":"asa","Detail":"ll"},
@@ -146,7 +236,48 @@ def calculation(fasta):
     json.close()
     return rst
 
+def propert(file):
+    sequence = ' '
+    fasta = {}
+    with open(file) as file_one:
+        for line in file_one:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith(">"):
+                active_sequence_name = line[1:]
+                if active_sequence_name not in fasta:
+                    fasta[active_sequence_name] = []
+                continue
+            sequence = line
+            fasta[active_sequence_name].append(sequence)
 
+    count = 1
+    alldata = []
+    path = './static/propert/'
+    with open(path + '/propert-json.txt', 'w') as json:
+        for key in fasta:
+            X = ProteinAnalysis(fasta[key][0])
+            mw = "%0.2f" % X.molecular_weight()
+            ar = "%0.2f" % X.aromaticity()
+            ii = "%0.2f" % X.instability_index()
+            ip = "%0.2f" % X.isoelectric_point()
+            sec_struc = X.secondary_structure_fraction()
+            ss = "%0.2f" % sec_struc[0]
+            charge = "%0.2f" % X.charge_at_pH(7)
+            print(ss)
+            data = {"ID": count, "Peptide": key,
+                    "Molecular weight": mw,
+                    "Aromaticity": ar, "Instability index": ii,
+                    "Isoelectric point": ip, "Charge": charge,
+                    "Secondary structure fraction": ss}
+            count += 1
+            alldata.append(data)
+            rst = {}
+            rst["data"] = alldata
+        json.write(str(rst).replace("'", "\""))  # JSON 格式一对要求双引号
+    json.close()
+    return rst
 
 if __name__ == "__main__":
     app.run()

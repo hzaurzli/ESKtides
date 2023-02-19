@@ -24,7 +24,18 @@ class peptide(db.Model):
     Activity = db.Column(db.Integer)
     Level = db.Column(db.String(200))
     Strains = db.Column(db.String(200))
+    Length = db.Column(db.Integer)
+    Type = db.Column(db.String(200))
+
+class genome(db.Model):
+    ID = db.Column(db.Integer, primary_key=True)
+    Strains = db.Column(db.String(200))
+    Accession = db.Column(db.Integer)
+    Length = db.Column(db.String(200))
+    ORF_number = db.Column(db.String(200))
+    Genome_level = db.Column(db.Integer)
     Detail = db.Column(db.String(200))
+    Type = db.Column(db.String(200))
 
 #################################### Router
 @app.route('/', methods=['get', 'post'])
@@ -34,6 +45,10 @@ def home():
 @app.route('/strains1.html', methods=['get', 'post'])
 def strains1():
     return render_template('strains1.html')
+
+@app.route('/peptide.html', methods=['get', 'post'])
+def peptide_ajax():
+    return render_template('peptide.html')
 
 @app.route('/predict.html', methods=['get', 'post'])
 def predict():
@@ -65,13 +80,13 @@ def help():
     return render_template('help.html')
 
 #########################################ajax
-@app.route('/tides/', methods=['GET', 'POST'])
-def tides():
+@app.route('/strain_ajax/', methods=['GET', 'POST'])
+def strain_ajax():
     param = request.args.to_dict()
     print(param)
     page = param['start']
+    strain_type = param['extra_search']
     pageSize = 15
-    page_skip = int(page) * pageSize
     tag = param['search[value]']
     search = "%{}%".format(tag)
     sortnum = param['order[0][column]']
@@ -79,38 +94,112 @@ def tides():
     selection = param['columns[' + str(sortnum) + '][data]']
     if tag == "":
         if dir_sort == 'desc':
-            result_db = peptide.query.order_by(getattr(peptide, selection).desc())
+            result_db = genome.query.filter(
+                genome.Type.like(strain_type)).order_by(getattr(genome, selection).desc())
             count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + 15]
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
         else:
-            result_db = peptide.query.order_by(getattr(peptide, selection).asc())
+            result_db = genome.query.filter(
+                genome.Type.like(strain_type)).order_by(getattr(genome, selection).asc())
             count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + 15]
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
     else:
         if dir_sort == 'desc':
-            result_db = peptide.query.filter(
-                or_(peptide.ID.like(search), peptide.ORF.like(search),
-                    peptide.Activity.like(search), peptide.Level.like(search),
-                    peptide.Strains.like(search),
-                    peptide.Detail.like(search))).order_by(
-                getattr(peptide, selection).desc())
+            result_db = genome.query.filter(genome.Type.like(strain_type),
+                or_(genome.ID.like(search),
+                    genome.Strains.like(search),
+                    genome.Accession.like(search),
+                    genome.Length.like(search),
+                    genome.ORF_number.like(search),
+                    genome.Genome_level.like(search),
+                    genome.Detail.like(search))).order_by(
+                getattr(genome, selection).desc())
             count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + 15]
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
 
         else:
+            result_db = genome.query.filter(genome.Type.like(strain_type),
+                or_(genome.ID.like(search),
+                    genome.Strains.like(search),
+                    genome.Accession.like(search),
+                    genome.Length.like(search),
+                    genome.ORF_number.like(search),
+                    genome.Genome_level.like(search),
+                    genome.Detail.like(search))).order_by(
+                getattr(genome, selection).asc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+
+    alldata = []
+    for one in result:
+        data = {"ID": one.ID,
+                "Strains": one.Strains,
+                "Accession": one.Accession,
+                "Length": one.Length,
+                "ORF number": one.ORF_number,
+                "Genome level": one.Genome_level,
+                "Detail": one.Detail}
+        alldata.append(data)
+    rst = {}
+    rst["draw"] = param["draw"]
+    rst["recordsTotal"] = count_num
+    rst["recordsFiltered"] = count_num
+    rst["data"] = alldata
+
+    return rst
+
+@app.route('/tides/', methods=['GET', 'POST'])
+def tides():
+    param = request.args.to_dict()
+    print(param)
+    page = param['start']
+    strain_type = param['extra_search']
+    pageSize = 15
+    tag = param['search[value]']
+    search = "%{}%".format(tag)
+    sortnum = param['order[0][column]']
+    dir_sort = param['order[0][dir]']
+    selection = param['columns[' + str(sortnum) + '][data]']
+    if tag == "":
+        if dir_sort == 'desc':
             result_db = peptide.query.filter(
-                or_(peptide.ID.like(search), peptide.ORF.like(search),
-                    peptide.Activity.like(search), peptide.Level.like(search),
+                peptide.Type.like(strain_type)).order_by(getattr(peptide, selection).desc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+        else:
+            result_db = peptide.query.filter(
+                peptide.Type.like(strain_type)).order_by(getattr(peptide, selection).asc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+    else:
+        if dir_sort == 'desc':
+            result_db = peptide.query.filter(peptide.Type.like(strain_type),
+                or_(peptide.ID.like(search),
+                    peptide.ORF.like(search),
+                    peptide.Activity.like(search),
+                    peptide.Level.like(search),
                     peptide.Strains.like(search),
-                    peptide.Detail.like(search))).order_by(
+                    peptide.Length.like(search))).order_by(
+                getattr(peptide, selection).desc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+
+        else:
+            result_db = peptide.query.filter(peptide.Type.like(strain_type),
+                or_(peptide.ID.like(search),
+                    peptide.ORF.like(search),
+                    peptide.Activity.like(search),
+                    peptide.Level.like(search),
+                    peptide.Strains.like(search),
+                    peptide.Length.like(search))).order_by(
                 getattr(peptide, selection).asc())
             count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + 15]
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
 
     alldata = []
     for one in result:
         data = {"ID": one.ID, "ORF": one.ORF, "Activity": one.Activity, "Level": one.Level,
-                "Strains": one.Strains, "Detail": one.Detail}
+                "Strains": one.Strains, "Length": one.Length}
         alldata.append(data)
     rst = {}
     rst["draw"] = param["draw"]
@@ -142,6 +231,8 @@ def propert_up_file():
         rst = propert('./static/propert/' + f.filename)
 
         return rst
+
+
 
 @app.route('/propert_input_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
 def propert_input_up_file():

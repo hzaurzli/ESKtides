@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Statistics</title>
+    <title>ESKtides</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -12,16 +12,30 @@
 
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css">
     <link rel="stylesheet" type="text/css" href="../static/css/eskape.css">
-    <script src="./js/LBD.js"></script>
-    <script src="./js/echarts.js"></script>
+	
+	
+	<link rel="stylesheet" type="text/css" href="../static/css/phylotree.css">
+	<script type="text/javascript" charset="utf8" src="../static/js/d3.v3.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="../static/js/underscore-min.js"></script>
+	<script type="text/javascript" charset="utf8" src="../static/js/phylotree.js"></script>
 </head>
 
 <style type="text/css">
@@ -46,13 +60,13 @@
 </style>
 
 <body>
- <img src='../static/image/ESKtides.png'>
+<img src='../static/image/ESKtides.png'>
   <!--Navigator-->
   <nav class="navbar navbar-inverse navbar-static-top bg-dark">
     <div class="container">
       <div class="navbar-header">
            <a class="navbar-brand" href="/">ESKtides</a>
-
+		   
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -60,7 +74,7 @@
           <span class="icon-bar"></span>
         </button>
       </div>
-       <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
         <li><a href="/">Home</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -143,13 +157,27 @@
 <br>
 <!-- Page Content-->
 <div class="container">
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-            
-        </div>
-        <div class="col-md-1"></div>
-    </div>
+	<br>
+    <h4 id='name' style="text-align:center"></h4>
+	<br>
+	<br>
+    <table class="table table-bordered table-hover" id="peptides" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ORF</th>
+                <th>Activity</th>
+                <th>Level</th>
+                <th>Strains</th>
+                <th>Length</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <br>
 </div>
 <!-- Footer-->
 <footer class="py-5 bg-dark">
@@ -158,6 +186,74 @@
       &copy; All rights reserved by <a target="_blank" href="https://lijinquanlab.github.io/index.html">Jinquan Li's Lab</a>, HZAU.</p>
   </div>
 </footer>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',function(){//生命周期函数，注意顺序
+      let url = window.location.href;
+      let urlParams = url.split('?')[1]
+      let obj = {}
+      if(urlParams){
+        let arr = urlParams.split('&');
+        for(let i = 0; i < arr.length; i++) {
+          let params = arr[i].split('=')
+          obj[params[0]] = params[1]
+        }
+	  if(obj.strains=='Klebsiellarpneumonia'){
+		var name = obj.strains + ' Peptides'
+		console.log(obj.strains)
+	  }
+	  else if(obj.strains.split('_')[2]=='phages'){
+		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' ' + obj.strains.split('_')[2] + ' Peptides';
+		console.log(name)
+	  }
+	  else if(obj.strains.split('_')[1]=='phages'){
+		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Peptides';
+		console.log(name)
+	  }
+	  else{
+		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Peptides' ;
+		console.log(name)
+	  }	
+    }
+	$("#name").html(name);
+},false);
+
+
+$(document).ready(function(){//生命周期函数，注意顺序
+    $('#peptides').DataTable({
+        //"retrieve": true,
+        "serverSide":true,
+        "searching":true,
+        "processing":true,
+        "paging":true,
+        //"bServerSide":true,
+        //"bProcessing":true,
+        //"bPaginate":true,
+        "ordering":true,
+        "lengthMenu": [15],
+        ajax: {
+            url: 'http://127.0.0.1:5000/tides/',
+            type: "GET",
+            data: function(d){// 添加额外的参数传递到后台
+                d.extra_search = $('#name').text();
+            }
+        },
+        dom:'Bfrtip',
+        buttons:[
+          'copy','csv','excel','pdf','print'
+        ],
+        "columns":[
+          {'data':'ID'},
+          {'data':'ORF'},
+          {'data':'Activity'},
+          {'data':'Level'},
+          {'data':'Strains'},
+          {'data':'Length'}
+        ],
+    })
+});
+
+</script>
 
 </body> 
 </html> 

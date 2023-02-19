@@ -247,9 +247,9 @@ $(document).ready(function(){ //生命周期函数，注意顺序
           {'data':'Strains'},
           {'data':'Accession'},
           {'data':'Length'},
-          {'data':'ORF number'},
-          {'data':'Genome level'},
-          {'data':'Detail',render: function(data, type, row) { return '<a href="http://127.0.0.1:5000/detail/' + row.Detail + '">' + data + '</a>'; } }
+          {'data':'ORF_number'},
+          {'data':'Genome_level'},
+          {'data':'Detail',render: function(data, type, row) { return '<a href="http://127.0.0.1:5000/detail/' + row.Detail + '?strains=Staphylococcus_aureus">' + data + '</a>'; } }
         ],
      });
 });

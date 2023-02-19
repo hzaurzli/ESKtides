@@ -148,6 +148,10 @@
 <br>
 <!-- Page Content-->
 <div class="container">
+    <br>
+    <h4 id='name' style="text-align:center"></h4>
+	<br>
+	<br>
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -260,65 +264,97 @@
  <div class="container">
      <br>
      <br>
-        <h4 id='name' style="text-align:center">Strains Informations</h4>
+        <h4 id='name' style="text-align:center">Strains Annotation Informations</h4>
 	 <br>
  </div>
  <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align: center;">Strains ID</th>
-                        <th style="text-align: center;">Length</th>
-                        <th style="text-align: center;">ORFs</th>
-                        <th style="text-align: center;">Gram</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="text-align: center;">
-                        <td>AAA</td>
-                        <td>3695</td>
-                        <td>227</td>
-                        <td>G+</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+     <table class="table table-bordered table-hover" id="peptides" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Locus tag</th>
+                <th>Ftype</th>
+                <th>Length</th>
+                <th>Gene</th>
+                <th>EC number</th>
+                <th>COG</th>
+                <th>Product</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 </div>
 
- <div class="container">
-     <br>
-     <br>
-        <h4 id='name' style="text-align:center">Strains derived peptides Informations</h4>
-	 <br>
- </div>
- <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align: center;">Peptides ID</th>
-                        <th style="text-align: center;">Length</th>
-                        <th style="text-align: center;">Activity</th>
-                        <th style="text-align: center;">Sequence</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="text-align: center;">
-                        <td>BBB</td>
-                        <td>36</td>
-                        <td>0.91</td>
-                        <td style="width: 242px;word-break: break-all">GMACGGMACGGMACGGMACGGMACGGMACGGMACGGMACGGMACGGMACGGMACGGMACGGMACGGMACG</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded',function(){//生命周期函数，注意顺序
+      let url = window.location.href;
+      let urlParams = url.split('?')[1]
+      let obj = {}
+      if(urlParams){
+        let arr = urlParams.split('&');
+        for(let i = 0; i < arr.length; i++) {
+          let params = arr[i].split('=')
+          obj[params[0]] = params[1]
+        }
+	  if(obj.strains=='Klebsiellarpneumonia'){
+		var name = obj.strains + ' Genome'
+		console.log(obj.strains)
+	  }
+	  else if(obj.strains.split('_')[2]=='phages'){
+		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' ' + obj.strains.split('_')[2] + ' Genome';
+		console.log(name)
+	  }
+	  else if(obj.strains.split('_')[1]=='phages'){
+		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Genome';
+		console.log(name)
+	  }
+	  else{
+		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Genome' ;
+		console.log(name)
+	  }
+    }
+	$("#name").html(name);
+},false);
 
+$(document).ready(function(){ //生命周期函数，注意顺序
+  $('#peptides').DataTable({
+        //"retrieve": true,
+        "serverSide":true,
+        "searching":true,
+        "processing":true,
+        "paging":true,
+        //"bServerSide":true,
+        //"bProcessing":true,
+        //"bPaginate":true,
+        "ordering":true,
+        "lengthMenu": [15],
+        ajax: {
+            url: 'http://127.0.0.1:5000/annotate_ajax/',
+            type: "GET",
+            data: function(d){// 添加额外的参数传递到后台
+                d.extra_search = $('#name').text();
+            }
+        },
+        dom:'Bfrtip',
+        buttons:[
+          'copy','csv','excel','pdf','print'
+        ],
+        "columns":[
+          {'data':'ID'},
+          {'data':'Locus_tag'},
+          {'data':'Ftype'},
+          {'data':'Length'},
+          {'data':'Gene'},
+          {'data':'EC_number'},
+          {'data':'COG'},
+          {'data':'Product'},
+          {'data':'Type'},
+        ],
+     });
+});
+</script>
 
 <!-- Footer-->
 <footer class="py-5 bg-dark">

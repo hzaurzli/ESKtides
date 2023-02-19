@@ -23,7 +23,7 @@ class peptide(db.Model):
     ORF = db.Column(db.String(200))
     Activity = db.Column(db.Integer)
     Level = db.Column(db.String(200))
-    Strains = db.Column(db.String(200))
+    Peptide_ID = db.Column(db.String(200))
     Length = db.Column(db.Integer)
     Type = db.Column(db.String(200))
 
@@ -35,6 +35,17 @@ class genome(db.Model):
     ORF_number = db.Column(db.String(200))
     Genome_level = db.Column(db.Integer)
     Detail = db.Column(db.String(200))
+    Type = db.Column(db.String(200))
+
+class annotate(db.Model):
+    ID = db.Column(db.Integer, primary_key=True)
+    Locus_tag = db.Column(db.String(200))
+    Ftype = db.Column(db.String(200))
+    Length = db.Column(db.Integer)
+    Gene = db.Column(db.String(200))
+    EC_number = db.Column(db.Integer)
+    COG = db.Column(db.String(200))
+    Product = db.Column(db.String(200))
     Type = db.Column(db.String(200))
 
 #################################### Router
@@ -136,8 +147,8 @@ def strain_ajax():
                 "Strains": one.Strains,
                 "Accession": one.Accession,
                 "Length": one.Length,
-                "ORF number": one.ORF_number,
-                "Genome level": one.Genome_level,
+                "ORF_number": one.ORF_number,
+                "Genome_level": one.Genome_level,
                 "Detail": one.Detail}
         alldata.append(data)
     rst = {}
@@ -147,6 +158,82 @@ def strain_ajax():
     rst["data"] = alldata
 
     return rst
+
+
+@app.route('/annotate_ajax/', methods=['GET', 'POST'])
+def annotate_ajax():
+    param = request.args.to_dict()
+    print(param)
+    page = param['start']
+    strain_type = param['extra_search']
+    pageSize = 15
+    tag = param['search[value]']
+    search = "%{}%".format(tag)
+    sortnum = param['order[0][column]']
+    dir_sort = param['order[0][dir]']
+    selection = param['columns[' + str(sortnum) + '][data]']
+    if tag == "":
+        if dir_sort == 'desc':
+            result_db = annotate.query.filter(
+                annotate.Type.like(strain_type)).order_by(getattr(annotate, selection).desc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+        else:
+            result_db = annotate.query.filter(
+                annotate.Type.like(strain_type)).order_by(getattr(annotate, selection).asc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+    else:
+        if dir_sort == 'desc':
+            result_db = annotate.query.filter(annotate.Type.like(strain_type),
+                or_(annotate.ID.like(search),
+                    annotate.Locus_tag.like(search),
+                    annotate.Ftype.like(search),
+                    annotate.Length.like(search),
+                    annotate.Gene.like(search),
+                    annotate.EC_number.like(search),
+                    annotate.COG.like(search),
+                    annotate.Product.like(search),
+                    annotate.Type.like(search))).order_by(
+                getattr(annotate, selection).desc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+
+        else:
+            result_db = annotate.query.filter(annotate.Type.like(strain_type),
+                or_(annotate.ID.like(search),
+                    annotate.Locus_tag.like(search),
+                    annotate.Ftype.like(search),
+                    annotate.Length.like(search),
+                    annotate.Gene.like(search),
+                    annotate.EC_number.like(search),
+                    annotate.COG.like(search),
+                    annotate.Product.like(search),
+                    annotate.Type.like(search))).order_by(
+                getattr(annotate, selection).asc())
+            count_num = result_db.count()
+            result = result_db.all()[int(page):int(page) + int(pageSize)]
+
+    alldata = []
+    for one in result:
+        data = {"ID": one.ID,
+                "Locus_tag": one.Locus_tag,
+                "Ftype": one.Ftype,
+                "Length": one.Length,
+                "Gene": one.Gene,
+                "EC_number": one.EC_number,
+                "COG": one.COG,
+                "Product": one.Product,
+                "Type": one.Type}
+        alldata.append(data)
+    rst = {}
+    rst["draw"] = param["draw"]
+    rst["recordsTotal"] = count_num
+    rst["recordsFiltered"] = count_num
+    rst["data"] = alldata
+
+    return rst
+
 
 @app.route('/tides/', methods=['GET', 'POST'])
 def tides():
@@ -178,7 +265,7 @@ def tides():
                     peptide.ORF.like(search),
                     peptide.Activity.like(search),
                     peptide.Level.like(search),
-                    peptide.Strains.like(search),
+                    peptide.Peptide_ID.like(search),
                     peptide.Length.like(search))).order_by(
                 getattr(peptide, selection).desc())
             count_num = result_db.count()
@@ -190,7 +277,7 @@ def tides():
                     peptide.ORF.like(search),
                     peptide.Activity.like(search),
                     peptide.Level.like(search),
-                    peptide.Strains.like(search),
+                    peptide.Peptide_ID.like(search),
                     peptide.Length.like(search))).order_by(
                 getattr(peptide, selection).asc())
             count_num = result_db.count()
@@ -198,8 +285,12 @@ def tides():
 
     alldata = []
     for one in result:
-        data = {"ID": one.ID, "ORF": one.ORF, "Activity": one.Activity, "Level": one.Level,
-                "Strains": one.Strains, "Length": one.Length}
+        data = {"ID": one.ID,
+                "ORF": one.ORF,
+                "Peptide_ID": one.Peptide_ID,
+                "Length": one.Length,
+                "Activity": one.Activity,
+                "Level": one.Level,}
         alldata.append(data)
     rst = {}
     rst["draw"] = param["draw"]

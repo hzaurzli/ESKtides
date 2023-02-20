@@ -457,7 +457,7 @@ def propert(file):
             alldata.append(data)
             rst = {}
             rst["data"] = alldata
-        json.write(str(rst).replace("'", "\""))  # JSON 格式一对要求双引号
+        json.write(str(rst).replace("'", "\""))  # JSON 格式一定要求双引号
     json.close()
     return rst
 

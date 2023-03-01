@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import time
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from keras.models import load_model
 from numpy import loadtxt, savetxt
 import sys,os
@@ -29,16 +29,19 @@ class peptide(db.Model):
 
 class genome(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
-    Strains = db.Column(db.String(200))
+    Number = db.Column(db.Integer)
     Accession = db.Column(db.Integer)
+    Strains = db.Column(db.String(200))
     Length = db.Column(db.String(200))
-    ORF_number = db.Column(db.String(200))
     Genome_level = db.Column(db.Integer)
-    Detail = db.Column(db.String(200))
     Type = db.Column(db.String(200))
+    ORF_number = db.Column(db.String(200))
+    Detail = db.Column(db.String(200))
+    Download_faa = db.Column(db.String(200))
 
 class annotate(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
+    Number = db.Column(db.Integer, primary_key=True)
     Locus_tag = db.Column(db.String(200))
     Ftype = db.Column(db.String(200))
     Length = db.Column(db.Integer)
@@ -107,49 +110,55 @@ def strain_ajax():
         if dir_sort == 'desc':
             result_db = genome.query.filter(
                 genome.Type.like(strain_type)).order_by(getattr(genome, selection).desc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            count_num = result_db.count() # 小数据计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
         else:
             result_db = genome.query.filter(
                 genome.Type.like(strain_type)).order_by(getattr(genome, selection).asc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            count_num = result_db.count() # 小数据计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
     else:
         if dir_sort == 'desc':
             result_db = genome.query.filter(genome.Type.like(strain_type),
                 or_(genome.ID.like(search),
-                    genome.Strains.like(search),
+                    genome.Number.like(search),
                     genome.Accession.like(search),
+                    genome.Strains.like(search),
                     genome.Length.like(search),
-                    genome.ORF_number.like(search),
                     genome.Genome_level.like(search),
-                    genome.Detail.like(search))).order_by(
+                    genome.ORF_number.like(search),
+                    genome.Detail.like(search),
+                    genome.Download_faa.like(search))).order_by(
                 getattr(genome, selection).desc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            count_num = result_db.count() # 小数据计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
         else:
             result_db = genome.query.filter(genome.Type.like(strain_type),
                 or_(genome.ID.like(search),
-                    genome.Strains.like(search),
+                    genome.Number.like(search),
                     genome.Accession.like(search),
+                    genome.Strains.like(search),
                     genome.Length.like(search),
-                    genome.ORF_number.like(search),
                     genome.Genome_level.like(search),
-                    genome.Detail.like(search))).order_by(
-                getattr(genome, selection).asc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+                    genome.ORF_number.like(search),
+                    genome.Detail.like(search),
+                    genome.Download_faa.like(search))).order_by(
+                getattr(genome, selection).desc())
+            count_num = result_db.count() # 小数据计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
     alldata = []
     for one in result:
         data = {"ID": one.ID,
-                "Strains": one.Strains,
+                "Number": one.Number,
                 "Accession": one.Accession,
+                "Strains": one.Strains,
                 "Length": one.Length,
-                "ORF_number": one.ORF_number,
                 "Genome_level": one.Genome_level,
-                "Detail": one.Detail}
+                "ORF_number": one.ORF_number,
+                "Detail": one.Detail,
+                "Download_faa": one.Download_faa}
         alldata.append(data)
     rst = {}
     rst["draw"] = param["draw"]
@@ -176,17 +185,22 @@ def annotate_ajax():
         if dir_sort == 'desc':
             result_db = annotate.query.filter(
                 annotate.Type.like(strain_type)).order_by(getattr(annotate, selection).desc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            count_num = db.session.query(func.count(annotate.ID)).filter(
+                annotate.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
+
         else:
             result_db = annotate.query.filter(
                 annotate.Type.like(strain_type)).order_by(getattr(annotate, selection).asc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            count_num = db.session.query(func.count(annotate.ID)).filter(
+                annotate.Type.like(strain_type)).scalar() # 大数据对表计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
+
     else:
         if dir_sort == 'desc':
             result_db = annotate.query.filter(annotate.Type.like(strain_type),
                 or_(annotate.ID.like(search),
+                    annotate.Number.like(search),
                     annotate.Locus_tag.like(search),
                     annotate.Ftype.like(search),
                     annotate.Length.like(search),
@@ -196,27 +210,31 @@ def annotate_ajax():
                     annotate.Product.like(search),
                     annotate.Type.like(search))).order_by(
                 getattr(annotate, selection).desc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            count_num = db.session.query(func.count(annotate.ID)).filter(
+                annotate.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
         else:
             result_db = annotate.query.filter(annotate.Type.like(strain_type),
-                or_(annotate.ID.like(search),
-                    annotate.Locus_tag.like(search),
-                    annotate.Ftype.like(search),
-                    annotate.Length.like(search),
-                    annotate.Gene.like(search),
-                    annotate.EC_number.like(search),
-                    annotate.COG.like(search),
-                    annotate.Product.like(search),
-                    annotate.Type.like(search))).order_by(
-                getattr(annotate, selection).asc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+                  or_(annotate.ID.like(search),
+                      annotate.Number.like(search),
+                      annotate.Locus_tag.like(search),
+                      annotate.Ftype.like(search),
+                      annotate.Length.like(search),
+                      annotate.Gene.like(search),
+                      annotate.EC_number.like(search),
+                      annotate.COG.like(search),
+                      annotate.Product.like(search),
+                      annotate.Type.like(search))).order_by(
+                    getattr(annotate, selection).desc())
+            count_num = db.session.query(func.count(annotate.ID)).filter(
+                annotate.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
     alldata = []
     for one in result:
         data = {"ID": one.ID,
+                "Number": one.Number,
                 "Locus_tag": one.Locus_tag,
                 "Ftype": one.Ftype,
                 "Length": one.Length,

@@ -165,7 +165,7 @@
 <!-- Page Content-->
 <div class="container">
     <br>
-    <h4 id='name' style="text-align:center"></h4>
+    <h3 id='name' style="text-align:center"></h3>
 	<br>
 	<br>
     <div class="row">
@@ -280,7 +280,7 @@
  <div class="container">
      <br>
      <br>
-        <h4 id='name' style="text-align:center">Strains Annotation Informations</h4>
+        <h3 id='name' style="text-align:center">Genome Annotation Informations</h3>
 	 <br>
      <br>
  </div>
@@ -301,6 +301,7 @@
         <tbody>
         </tbody>
     </table>
+    <h4 style="text-align:left">Sorry, the loading data is too large, please wait for about half a minute.</h4>
 </div>
 
 <script type="text/javascript">
@@ -314,22 +315,8 @@
           let params = arr[i].split('=')
           obj[params[0]] = params[1]
         }
-	  if(obj.strains=='Klebsiellarpneumonia'){
-		var name = obj.strains + ' Genome'
-		console.log(obj.strains)
-	  }
-	  else if(obj.strains.split('_')[2]=='phages'){
-		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' ' + obj.strains.split('_')[2] + ' Genome';
-		console.log(name)
-	  }
-	  else if(obj.strains.split('_')[1]=='phages'){
-		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Genome';
-		console.log(name)
-	  }
-	  else{
-		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Genome' ;
-		console.log(name)
-	  }
+      var name = obj.strains + ' ' + 'Genome';
+	  console.log(name)
     }
 	$("#name").html(name);
 },false);
@@ -350,7 +337,8 @@ $(document).ready(function(){//生命周期函数，注意顺序
             url: 'http://127.0.0.1:5000/annotate_ajax/',
             type: "GET",
             data: function(d){// 添加额外的参数传递到后台
-                d.extra_search = $('#name').text();
+                var id = $('#name').text();
+                d.extra_search = id.split(' ')[0];
             }
         },
         dom:'Bfrtip',

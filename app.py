@@ -20,12 +20,15 @@ app.jinja_env.variable_end_string = '%%'
 ####################################table
 class peptide(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
-    ORF = db.Column(db.String(200))
-    Activity = db.Column(db.Integer)
-    Level = db.Column(db.String(200))
+    Number = db.Column(db.Integer)
     Peptide_ID = db.Column(db.String(200))
+    Seq = db.Column(db.String(200))
     Length = db.Column(db.Integer)
+    Activity = db.Column(db.String(200))
+    Level = db.Column(db.String(200))
     Type = db.Column(db.String(200))
+    Sequence = db.Column(db.String(200))
+
 
 class genome(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
@@ -185,16 +188,23 @@ def annotate_ajax():
         if dir_sort == 'desc':
             result_db = annotate.query.filter(
                 annotate.Type.like(strain_type)).order_by(getattr(annotate, selection).desc())
-            count_num = db.session.query(func.count(annotate.ID)).filter(
+            count_num = result_db.session.query(func.count(annotate.ID)).filter(
                 annotate.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
             result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
         else:
             result_db = annotate.query.filter(
                 annotate.Type.like(strain_type)).order_by(getattr(annotate, selection).asc())
-            count_num = db.session.query(func.count(annotate.ID)).filter(
+            t1 = time.time()
+
+            count_num = result_db.session.query(func.count(annotate.ID)).filter(
                 annotate.Type.like(strain_type)).scalar() # 大数据对表计数的方法
+
+            t2 = time.time()
+            print(t2-t1)
             result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
+            t3 = time.time()
+            print(t3 - t2)
 
     else:
         if dir_sort == 'desc':
@@ -210,8 +220,20 @@ def annotate_ajax():
                     annotate.Product.like(search),
                     annotate.Type.like(search))).order_by(
                 getattr(annotate, selection).desc())
-            count_num = db.session.query(func.count(annotate.ID)).filter(
-                annotate.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+
+            count_num = result_db.session.query(func.count(annotate.ID)).filter(
+                annotate.Type.like(strain_type),
+                    or_(annotate.ID.like(search),
+                        annotate.Number.like(search),
+                        annotate.Locus_tag.like(search),
+                        annotate.Ftype.like(search),
+                        annotate.Length.like(search),
+                        annotate.Gene.like(search),
+                        annotate.EC_number.like(search),
+                        annotate.COG.like(search),
+                        annotate.Product.like(search),
+                        annotate.Type.like(search))).scalar()  # 大数据对表计数的方法
+
             result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
         else:
@@ -227,8 +249,20 @@ def annotate_ajax():
                       annotate.Product.like(search),
                       annotate.Type.like(search))).order_by(
                     getattr(annotate, selection).desc())
-            count_num = db.session.query(func.count(annotate.ID)).filter(
-                annotate.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+
+            count_num = result_db.session.query(func.count(annotate.ID)).filter(
+                annotate.Type.like(strain_type),
+                or_(annotate.ID.like(search),
+                    annotate.Number.like(search),
+                    annotate.Locus_tag.like(search),
+                    annotate.Ftype.like(search),
+                    annotate.Length.like(search),
+                    annotate.Gene.like(search),
+                    annotate.EC_number.like(search),
+                    annotate.COG.like(search),
+                    annotate.Product.like(search),
+                    annotate.Type.like(search))).scalar()  # 大数据对表计数的方法
+
             result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
     alldata = []
@@ -269,46 +303,82 @@ def tides():
         if dir_sort == 'desc':
             result_db = peptide.query.filter(
                 peptide.Type.like(strain_type)).order_by(getattr(peptide, selection).desc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            count_num = result_db.session.query(func.count(peptide.ID)).filter(
+                peptide.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
         else:
             result_db = peptide.query.filter(
                 peptide.Type.like(strain_type)).order_by(getattr(peptide, selection).asc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+            t1 = time.time()
+            count_num = result_db.session.query(func.count(peptide.ID)).filter(
+                peptide.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+            t2 = time.time()
+            print(t2-t1)
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
+            t3 = time.time()
+            print(t3 - t2)
+
     else:
         if dir_sort == 'desc':
             result_db = peptide.query.filter(peptide.Type.like(strain_type),
                 or_(peptide.ID.like(search),
-                    peptide.ORF.like(search),
+                    peptide.Number.like(search),
+                    peptide.Peptide_ID.like(search),
+                    peptide.Sequence.like(search),
+                    peptide.Length.like(search),
                     peptide.Activity.like(search),
                     peptide.Level.like(search),
-                    peptide.Peptide_ID.like(search),
-                    peptide.Length.like(search))).order_by(
+                    peptide.Seq.like(search))).order_by(
                 getattr(peptide, selection).desc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+
+            count_num = result_db.session.query(func.count(peptide.ID)).filter(
+                peptide.Type.like(strain_type),
+                or_(peptide.ID.like(search),
+                    peptide.Number.like(search),
+                    peptide.Peptide_ID.like(search),
+                    peptide.Sequence.like(search),
+                    peptide.Length.like(search),
+                    peptide.Activity.like(search),
+                    peptide.Level.like(search),
+                    peptide.Seq.like(search))).scalar()  # 大数据对表计数的方法
+
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
         else:
             result_db = peptide.query.filter(peptide.Type.like(strain_type),
+                 or_(peptide.ID.like(search),
+                     peptide.Number.like(search),
+                     peptide.Peptide_ID.like(search),
+                     peptide.Seq.like(search),
+                     peptide.Length.like(search),
+                     peptide.Activity.like(search),
+                     peptide.Level.like(search),
+                     peptide.Sequence.like(search))).order_by(
+                getattr(peptide, selection).asc())
+
+            count_num = result_db.session.query(func.count(peptide.ID)).filter(
+                peptide.Type.like(strain_type),
                 or_(peptide.ID.like(search),
-                    peptide.ORF.like(search),
+                    peptide.Number.like(search),
+                    peptide.Peptide_ID.like(search),
+                    peptide.Sequence.like(search),
+                    peptide.Length.like(search),
                     peptide.Activity.like(search),
                     peptide.Level.like(search),
-                    peptide.Peptide_ID.like(search),
-                    peptide.Length.like(search))).order_by(
-                getattr(peptide, selection).asc())
-            count_num = result_db.count()
-            result = result_db.all()[int(page):int(page) + int(pageSize)]
+                    peptide.Seq.like(search))).scalar()  # 大数据对表计数的方法
+
+            result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
 
     alldata = []
     for one in result:
         data = {"ID": one.ID,
-                "ORF": one.ORF,
+                "Number": one.Number,
                 "Peptide_ID": one.Peptide_ID,
+                "Seq": one.Seq,
                 "Length": one.Length,
                 "Activity": one.Activity,
-                "Level": one.Level,}
+                "Level": one.Level,
+                "Sequence": one.Sequence}
         alldata.append(data)
     rst = {}
     rst["draw"] = param["draw"]
@@ -356,16 +426,20 @@ def propert_input_up_file():
 
         return rst
 
-@app.route('/ajax_test/')
-def ajax():
-    rst =  {"data":[
-        { "ID": 0, "ORF": "c","Activity":10,"Level":"high","Strains":"asa","Detail":"ll"},
-        { "ID": 1, "ORF": "c","Activity":10,"Level":"high","Strains":"asa","Detail":"ll"},
-        { "ID": 2, "ORF": "c","Activity":10,"Level":"high","Strains":"asa","Detail":"ll"},
-        { "ID": 3, "ORF": "c","Activity":10,"Level":"high","Strains":"asa","Detail":"ll"}
-    ]}
 
-    return rst
+@app.route('/download_file/')
+def download_file():
+    if request.method == "GET":
+        data = request.args.to_dict()
+        print(type(data))
+        with open("D:/tools/Pycharm/flask/static/seq/" + data["name"] + ".fa", "w") as w:
+            line = ">" + data["name"] + "\n" + data["seq"] + "\n"
+            print(line)
+            w.write(line)
+        w.close()
+
+        file = "http://127.0.0.1:5000/static/seq/" + data["name"] + ".fa"
+        return file
 
 
 @app.route('/detail/<Strains>')

@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ESKtides</title>
+
+    <!-- Modal -->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -158,15 +160,15 @@
 <!-- Page Content-->
 <div class="container">
 	<br>
-    <h4 id='name' style="text-align:center"></h4>
+    <h3 id='name' style="text-align:center"></h3>
 	<br>
 	<br>
     <table class="table table-bordered table-hover" id="peptides" width="100%">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>ORF</th>
-                <th>Peptide ID</th>
+                <th>Number</th>
+                <th>ORFs ID</th>
+                <th>Sequence</th>
                 <th>Length</th>
                 <th>Activity</th>
                 <th>Level</th>
@@ -175,10 +177,11 @@
         <tbody>
         </tbody>
     </table>
-
+    <h4 style="text-align:left">Sorry, the loading data is too large, please wait for about half a minute.</h4>
     <br>
     <br>
 </div>
+
 <!-- Footer-->
 <footer class="py-5 bg-dark">
   <div class="container">
@@ -211,6 +214,38 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
 },false);
 
 
+var getseq = function(x){
+    console.log(x);
+    var seq = x.split(',')[0];
+    var name = x.split(',')[1];
+
+    var my_data = {
+        "name":name,
+        "seq":seq,
+    };
+
+     $.ajax({
+              url: "http://127.0.0.1:5000/download_file/", //json文件位置
+              type: "GET", //请求方式为get
+              dataType: "",
+              data: my_data,
+              success: function (data) { //请求成功完成后要执行的方法
+                  console.log(data);
+                  if ($('#file').length > 0){
+                      $("#file").remove();
+                  }
+                  var link = document.createElement('a');
+                  console.log(link);
+                  link.download = "peptide.fa";
+                  link.href = data;
+                  link.setAttribute('download', '');
+                  link.setAttribute('id', 'file');
+                  document.body.appendChild(link);
+                  link.click();
+              }
+          })
+};
+
 $(document).ready(function(){//生命周期函数，注意顺序
     $('#peptides').DataTable({
         //"retrieve": true,
@@ -235,9 +270,13 @@ $(document).ready(function(){//生命周期函数，注意顺序
           'copy','csv','excel','pdf','print'
         ],
         "columns":[
-          {'data':'ID'},
-          {'data':'ORF'},
+          {'data':'Number'},
           {'data':'Peptide_ID'},
+          {'data':'Seq',
+              render: function(data, type, row) {
+                  return '<button onclick="getseq(\'' + row.Sequence + ',' +
+                      row.Peptide_ID + '-length=' + row.Length + ',' + '\')">' + data + '</button>'; }
+          },
           {'data':'Length'},
           {'data':'Activity'},
           {'data':'Level'}

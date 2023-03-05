@@ -158,7 +158,7 @@
 <!-- Page Content-->
 <div class="container">
 	<br>
-    <h4 id='name' style="text-align:center"></h4>
+    <h3 id='name' style="text-align:center"></h3>
 	<br>
 	<br>
     <table class="table table-bordered table-hover" id="peptides" width="100%">
@@ -237,7 +237,11 @@ $(document).ready(function(){ //生命周期函数，注意顺序
         ],
         "columns":[
           {'data':'Number'},
-          {'data':'Accession'},
+          {'data':'Accession',
+            render: function(data, type, row) {
+                  return '<a href="https://www.ncbi.nlm.nih.gov/data-hub/genome/' + row.Accession + '"/>' +
+                  data + '</a>';}
+          },
           {'data':'Strains'},
           {'data':'Length'},
           {'data':'Genome_level'},
@@ -245,14 +249,15 @@ $(document).ready(function(){ //生命周期函数，注意顺序
           {'data':'Detail',
               render: function(data, type, row) {
                   return '<a href="http://127.0.0.1:5000/detail/' +
-                      row.Detail + '?strains=Staphylococcus_aureus">' +
+                      row.Detail + '?strains=' + row.Accession + '">' +
                       data + '</a>';
                   }
           },
           {'data':'Download_faa',
               render: function(data, type, row) {
-              return '<a href="../static/gff/Staphylococcus_aureus/NC_96325.faa">' +
-                  data + '</a>'; }
+                 return '<a href="../static/faa/' + row.Accession + '.faa' + '">' +
+                      data + '</a>';
+                  }
           }
         ],
      });

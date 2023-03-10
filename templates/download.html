@@ -24,24 +24,24 @@
 </head>
 
 <style type="text/css">
-.pace .pace-progress {
-  background: #1E92FB; /*进度条颜色*/
-  height: 3px;
-}
-.pace .pace-progress-inner {
-  box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
-}
-.pace .pace-activity {
-  border-top-color: #1E92FB;    /*上边框颜色*/
-  border-left-color: #1E92FB;    /*左边框颜色*/
-}
+    .pace .pace-progress {
+      background: #1E92FB; /*进度条颜色*/
+      height: 3px;
+    }
+    .pace .pace-progress-inner {
+      box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+      border-top-color: #1E92FB;    /*上边框颜色*/
+      border-left-color: #1E92FB;    /*左边框颜色*/
+    }
 
-#navbar a{
-  color: #FAFAFA;
-}
-div {
-  text-align: justify;
-}
+    #navbar a{
+      color: #FAFAFA;
+    }
+    div {
+      text-align: justify;
+    }
 </style>
 
 <body>
@@ -73,7 +73,6 @@ div {
               <li><a href="/strains1.html?strains=Acinetobacter_baumannii">Acinetobacter baumannii</a></li>
 			  <li><a href="/strains1.html?strains=Pseudomonas_aeruginosa">Pseudomonas aeruginosa</a></li>
 			  <li><a href="/strains1.html?strains=Enterobacter_aerogenes">Enterobacter aerogenes</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_agglomerans">Enterobacter agglomerans</a></li>
 			  <li><a href="/strains1.html?strains=Enterobacter_cloacae">Enterobacter cloacae</a></li>
 			  <li><a href="/strains1.html?strains=Escherichia_coli">Escherichia coli</a></li>
 
@@ -85,9 +84,6 @@ div {
               <li><a href="/strains1.html?strains=Klebsiella_pneumoniae_phages">Klebsiella pneumoniae phages</a></li>
               <li><a href="/strains1.html?strains=Acinetobacter_baumannii_phages">Acinetobacter baumannii phages</a></li>
 			  <li><a href="/strains1.html?strains=Pseudomonas_aeruginosa_phages">Pseudomonas aeruginosa phages</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_aerogenes_phages">Enterobacter aerogenes phages</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_agglomerans_phages">Enterobacter agglomerans phages</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_cloacae_phages">Enterobacter cloacae phages</a></li>
 			  <li><a href="/strains1.html?strains=Escherichia_coli_phages">Escherichia coli phages</a></li>
           </ul>
         </li>
@@ -103,7 +99,6 @@ div {
               <li><a href="/peptide.html?strains=Acinetobacter_baumannii">Acinetobacter baumannii</a></li>
 			  <li><a href="/peptide.html?strains=Pseudomonas_aeruginosa">Pseudomonas aeruginosa</a></li>
 			  <li><a href="/peptide.html?strains=Enterobacter_aerogenes">Enterobacter aerogenes</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_agglomerans">Enterobacter agglomerans</a></li>
 			  <li><a href="/peptide.html?strains=Enterobacter_cloacae">Enterobacter cloacae</a></li>
 			  <li><a href="/peptide.html?strains=Escherichia_coli">Escherichia coli</a></li>
 
@@ -115,9 +110,6 @@ div {
               <li><a href="/peptide.html?strains=Klebsiella_pneumoniae_phages">Klebsiella pneumoniae phages</a></li>
               <li><a href="/peptide.html?strains=Acinetobacter_baumannii_phages">Acinetobacter baumannii phages</a></li>
 			  <li><a href="/peptide.html?strains=Pseudomonas_aeruginosa_phages">Pseudomonas aeruginosa phages</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_aerogenes_phages">Enterobacter aerogenes phages</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_agglomerans_phages">Enterobacter agglomerans phages</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_cloacae_phages">Enterobacter cloacae phages</a></li>
 			  <li><a href="/peptide.html?strains=Escherichia_coli_phages">Escherichia coli phages</a></li>
           </ul>
         </li>
@@ -152,229 +144,207 @@ div {
     <div class="row">
         <div class="col-md-12">
             <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align: center;">ESKAPE strains derived peptides</th>
-                        <th style="text-align: center;">Format</th>
-                        <th style="text-align: center;">Size</th>
-                        <th style="text-align: center;">Download</th>
-                    </tr>
-                </thead>
                 <tbody>
-                    <tr style="text-align: center;">
-                        <td>All ESKAPE strains derived peptides</td>
-                        <td>csv</td>
-                        <td>628KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/all_biomarker.csv'),'_blank'">download</button></td>
-                    </tr>
-
-
                     <tr>
                         <th colspan="4" style="text-align: center;">Staphylococcus aureus</th>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>16.2MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Staphylococcus_aureus_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>12.5MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Staphylococcus_aureus_germ-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Phages</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>13.6MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Staphylococcus_aureus_phage-peptide09.csv'),'_blank'">download</button></td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td><b>Phages</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>9.53MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Staphylococcus_aureus_phage-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
 
 					<tr>
                         <th colspan="4" style="text-align: center;">Enterococcus Faecium</th>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>23.4MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterococcus_faecium_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>21.2MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterococcus_faecium_germ-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Phages</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>5.48MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterococcus_faecium_phage-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
-
+                     <tr style="text-align: center;">
+                        <td><b>Phages</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>5.33MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterococcus_faecium_phage-peptide0509.csv'),'_blank'">download</button></td>
+                    </tr>
 
 					<tr>
-                        <th colspan="4" style="text-align: center;">Klebsiellarpneumonia</th>
+                        <th colspan="4" style="text-align: center;">Klebsiella pneumoniae</th>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>100MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Klebsiella_pneumoniae_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>80.3MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Klebsiella_pneumoniae_germ-peptide0509.csv'),'_blank'">download</button></td>
+                    </tr>
+                     <tr style="text-align: center;">
+                        <td><b>Phages</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>6.16MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Klebsiella_pneumoniae_phage-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Phages</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>4.28MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Klebsiella_pneumoniae_phage-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
-
-
 
                     <tr>
                         <th colspan="4" style="text-align: center;">Acinetobacter baumannii</th>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>50.4MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Acinetobacter_baumannii_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>41.7MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Acinetobacter_baumannii_germ-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Phages</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>5.77MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Acinetobacter_baumannii_phage-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
-
-
+                    <tr style="text-align: center;">
+                        <td><b>Phages</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>3.66MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Acinetobacter_baumannii_phage-peptide0509.csv'),'_blank'">download</button></td>
+                    </tr>
 
 					<tr>
                         <th colspan="4" style="text-align: center;">Pseudomonas aeruginosa</th>
                     </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                     <tr style="text-align: center;">
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>39.9MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Pseudomonas_aeruginosa_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>34.8MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Pseudomonas_aeruginosa_germ-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Phages</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>12.3MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Pseudomonas_aeruginosa_phage-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
-
+                    <tr style="text-align: center;">
+                        <td><b>Phages</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>8.81MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Pseudomonas_aeruginosa_phage-peptide0509.csv'),'_blank'">download</button></td>
+                    </tr>
 
 					<tr>
                         <th colspan="4" style="text-align: center;">Enterobacter aerogenes</th>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>26.2MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterobacter_aerogenes_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>22.2MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterobacter_aerogenes_germ-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Enterobacter agglomerans</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
 
 					<tr>
                         <th colspan="4" style="text-align: center;">Enterobacter cloacae</th>
                     </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                      <tr style="text-align: center;">
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>59MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterobacter_cloacae_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>52.8MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Enterobacter_cloacae_germ-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
 
 					<tr>
                         <th colspan="4" style="text-align: center;">Escherichia coli</th>
                     </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
+                     <tr style="text-align: center;">
+                        <td><b>Strains</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>123MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Escherichia_coli_germ-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Strains</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>89.5MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Escherichia_coli_germ-peptide0509.csv'),'_blank'">download</button></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
+                        <td><b>Phages</b> derived high active(>0.9)</td>
+                        <td>csv</td>
+                        <td>21.1MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Escherichia_coli_phage-peptide09.csv'),'_blank'">download</button></td>
                     </tr>
+                    <tr style="text-align: center;">
+                        <td><b>Phages</b> derived active(0.5-0.9)</td>
+                        <td>csv</td>
+                        <td>15.5MB</td>
+                        <td><button class="btn btn-info" onclick="window.open('../static/data/Escherichia_coli_phage-peptide0509.csv'),'_blank'">download</button></td>
+                    </tr>
+
                 </tbody>
             </table>
 
@@ -382,239 +352,6 @@ div {
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align: center;">ESKAPE phages derived peptides</th>
-                        <th style="text-align: center;">Format</th>
-                        <th style="text-align: center;">Size</th>
-                        <th style="text-align: center;">Download</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   <tbody>
-                    <tr style="text-align: center;">
-                        <td>All ESKAPE phages derived peptides</td>
-                        <td>csv</td>
-                        <td>628KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/all_biomarker.csv'),'_blank'">download</button></td>
-                    </tr>
-
-                   <tr>
-                        <th colspan="4" style="text-align: center;">Staphylococcus aureus phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Enterococcus Faecium phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Klebsiellarpneumonia phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-
-                    <tr>
-                        <th colspan="4" style="text-align: center;">Acinetobacter baumannii phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Pseudomonas aeruginosa phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Enterobacter aerogenes phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Enterobacter agglomerans phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Enterobacter cloacae phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-
-
-					<tr>
-                        <th colspan="4" style="text-align: center;">Escherichia coli phages</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>High active(>0.9)</td>
-                        <td>xlsx</td>
-                        <td>227KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/molecule_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Active(0.5-0.9)</td>
-                        <td>xlsx</td>
-                        <td>36KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/cell_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>Non active(<0.5)</td>
-                        <td>xlsx</td>
-                        <td>34KB</td>
-                        <td><button class="btn btn-info" onclick="window.open('./download/image_biomarker.xlsx'),'_blank'">download</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-
-        </div>
-    </div>
-</div>
 </div>
 <!-- Footer-->
 <footer class="py-5 bg-dark">

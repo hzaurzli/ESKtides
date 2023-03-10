@@ -95,7 +95,6 @@
               <li><a href="/strains1.html?strains=Acinetobacter_baumannii">Acinetobacter baumannii</a></li>
 			  <li><a href="/strains1.html?strains=Pseudomonas_aeruginosa">Pseudomonas aeruginosa</a></li>
 			  <li><a href="/strains1.html?strains=Enterobacter_aerogenes">Enterobacter aerogenes</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_agglomerans">Enterobacter agglomerans</a></li>
 			  <li><a href="/strains1.html?strains=Enterobacter_cloacae">Enterobacter cloacae</a></li>
 			  <li><a href="/strains1.html?strains=Escherichia_coli">Escherichia coli</a></li>
 
@@ -106,10 +105,6 @@
               <li><a href="/strains1.html?strains=Enterococcus_Faecium_phages">Enterococcus Faecium phages</a></li>
               <li><a href="/strains1.html?strains=Klebsiella_pneumoniae_phages">Klebsiella pneumoniae phages</a></li>
               <li><a href="/strains1.html?strains=Acinetobacter_baumannii_phages">Acinetobacter baumannii phages</a></li>
-			  <li><a href="/strains1.html?strains=Pseudomonas_aeruginosa_phages">Pseudomonas aeruginosa phages</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_aerogenes_phages">Enterobacter aerogenes phages</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_agglomerans_phages">Enterobacter agglomerans phages</a></li>
-			  <li><a href="/strains1.html?strains=Enterobacter_cloacae_phages">Enterobacter cloacae phages</a></li>
 			  <li><a href="/strains1.html?strains=Escherichia_coli_phages">Escherichia coli phages</a></li>
           </ul>
         </li>
@@ -125,7 +120,6 @@
               <li><a href="/peptide.html?strains=Acinetobacter_baumannii">Acinetobacter baumannii</a></li>
 			  <li><a href="/peptide.html?strains=Pseudomonas_aeruginosa">Pseudomonas aeruginosa</a></li>
 			  <li><a href="/peptide.html?strains=Enterobacter_aerogenes">Enterobacter aerogenes</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_agglomerans">Enterobacter agglomerans</a></li>
 			  <li><a href="/peptide.html?strains=Enterobacter_cloacae">Enterobacter cloacae</a></li>
 			  <li><a href="/peptide.html?strains=Escherichia_coli">Escherichia coli</a></li>
 
@@ -137,9 +131,6 @@
               <li><a href="/peptide.html?strains=Klebsiella_pneumoniae_phages">Klebsiella pneumoniae phages</a></li>
               <li><a href="/peptide.html?strains=Acinetobacter_baumannii_phages">Acinetobacter baumannii phages</a></li>
 			  <li><a href="/peptide.html?strains=Pseudomonas_aeruginosa_phages">Pseudomonas aeruginosa phages</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_aerogenes_phages">Enterobacter aerogenes phages</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_agglomerans_phages">Enterobacter agglomerans phages</a></li>
-			  <li><a href="/peptide.html?strains=Enterobacter_cloacae_phages">Enterobacter cloacae phages</a></li>
 			  <li><a href="/peptide.html?strains=Escherichia_coli_phages">Escherichia coli phages</a></li>
           </ul>
         </li>
@@ -160,12 +151,24 @@
     </div>
   </nav>
 <!-- Page Content-->
+ <div class="container">
+  <div class = "well" style="font-size: 16px;">
+   <h3 style="text-align:left">Annotation Informations</h3>
+    <br>
+   <p><i class = "fa fa-info-circle"></i>
+       In this page,user can view genome circos for ESKAPE strains and phages,and genome annotation
+   </p>
+  </div>
+</div>
 <br>
-<br>
+<hr>
 <!-- Page Content-->
 <div class="container">
     <br>
-    <h3 id='name' style="text-align:center"></h3>
+    <h3 style="text-align:left">Genome circos visibilization</h3>
+    <hr>
+    <br>
+    <h4 id='name' style="text-align:center"></h4>
 	<br>
 	<br>
     <div class="row">
@@ -189,100 +192,18 @@
               </div>
 
             <div id='example-tables'></div>
-            <script>
-                    cgv = new CGV.Viewer('#my-viewer', {
-                        height: 650,
-                        width: 900,
-                    });
-
-                    var request = new XMLHttpRequest();
-                    request.open('GET', '../static/data/GCF_000335355.json', true);
-                    request.onload = function() {
-                      var response = request.response;
-                      const json = JSON.parse(response);
-                      cgv.io.loadJSON(json);
-                      cgv.draw()
-                    };
-                    request.send();
-
-                    onClick = function(id, func) {
-                        const btn = document.getElementById(id);
-                        btn.addEventListener('click', func);
-                    }
-
-
-                    onClick('btn-reset', () => {
-                      cgv.reset();
-                    });
-
-
-                    onClick('btn-zoom-in', () => {
-                       cgv.zoomIn()
-                    });
-                    onClick('btn-zoom-out', () => {
-                       cgv.zoomOut()
-                    });
-
-
-                    onClick('btn-move-left', () => {
-                      cgv.moveLeft();
-                    });
-                    onClick('btn-move-right', () => {
-                      cgv.moveRight();
-                    });
-
-
-                    onClick('btn-toggle-format', () => {
-                      const format = (cgv.format == 'circular') ? 'linear' : 'circular';
-                      cgv.settings.update({ format: format });
-                      cgv.draw();
-                    });
-
-
-                    onClick('btn-invert-colors', () => {
-                      cgv.invertColors();
-                    });
-
-
-                    onClick('btn-random-feature', () => {
-                      const number = Math.ceil(Math.random() * cgv.features().length);
-                      const feature = cgv.features(number);
-                      feature.moveTo(1500);
-                    });
-
-
-                    onClick('btn-download', () => {
-                      const height = 2000;
-                      const width = cgv.width / cgv.height * height;
-                      cgv.io.downloadImage(width, height, 'cgview_map.png');
-                    });
-
-
-                    onClick('btn-toggle-labels', () => {
-                      cgv.annotation.update({visible: !cgv.annotation.visible});
-                      cgv.draw();
-                    });
-
-
-                    onClick('btn-animate', () => {
-                      cgv.isAnimating ? cgv.stopAnimate() : cgv.animate();
-                    });
-
-                    cgv.draw();
-
-                  {#createViewerAndLoadJSON('../static/data/GCF_000335355.json');#}
-            </script>
             <script src="https://js.cgview.ca/scripts/controls.js"></script> {#controls.js一定要放入js脚本地下,否则失效#}
         </div>
         <div class="col-md-1"></div>
     </div>
 </div>
+ <hr>
  <div class="container">
      <br>
+     <h3 style="text-align:left">Genome annotation</h3>
+     <hr>
      <br>
-        <h3 id='name' style="text-align:center">Genome Annotation Informations</h3>
 	 <br>
-     <br>
  </div>
  <div class="container">
      <table class="table table-bordered table-hover" id="peptides" width="100%">
@@ -319,6 +240,90 @@
 	  console.log(name)
     }
 	$("#name").html(name);
+
+
+   // circos plot
+   var json = obj.strains;
+   cgv = new CGV.Viewer('#my-viewer', {
+                    height: 850,
+                    width: 1000,
+                });
+
+    var request = new XMLHttpRequest();
+    request.open('GET', '../static/json/' + json + '.json', true);
+    request.onload = function() {
+      var response = request.response;
+      const json = JSON.parse(response);
+      cgv.io.loadJSON(json);
+      cgv.draw()
+    };
+    request.send();
+
+    onClick = function(id, func) {
+        const btn = document.getElementById(id);
+        btn.addEventListener('click', func);
+    }
+
+
+    onClick('btn-reset', () => {
+      cgv.reset();
+    });
+
+
+    onClick('btn-zoom-in', () => {
+       cgv.zoomIn()
+    });
+    onClick('btn-zoom-out', () => {
+       cgv.zoomOut()
+    });
+
+
+    onClick('btn-move-left', () => {
+      cgv.moveLeft();
+    });
+    onClick('btn-move-right', () => {
+      cgv.moveRight();
+    });
+
+
+    onClick('btn-toggle-format', () => {
+      const format = (cgv.format == 'circular') ? 'linear' : 'circular';
+      cgv.settings.update({ format: format });
+      cgv.draw();
+    });
+
+
+    onClick('btn-invert-colors', () => {
+      cgv.invertColors();
+    });
+
+
+    onClick('btn-random-feature', () => {
+      const number = Math.ceil(Math.random() * cgv.features().length);
+      const feature = cgv.features(number);
+      feature.moveTo(1500);
+    });
+
+
+    onClick('btn-download', () => {
+      const height = 2000;
+      const width = cgv.width / cgv.height * height;
+      cgv.io.downloadImage(width, height, 'cgview_map.png');
+    });
+
+
+    onClick('btn-toggle-labels', () => {
+      cgv.annotation.update({visible: !cgv.annotation.visible});
+      cgv.draw();
+    });
+
+
+    onClick('btn-animate', () => {
+      cgv.isAnimating ? cgv.stopAnimate() : cgv.animate();
+    });
+
+    cgv.draw();
+
 },false);
 
 $(document).ready(function(){//生命周期函数，注意顺序

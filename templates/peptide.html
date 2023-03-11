@@ -147,6 +147,15 @@
     </div>
   </nav>
 <!-- Page Content-->
+<style>
+      .left {
+        float: left;
+        margin-left: 30px;
+      }
+      .right {
+        margin-left: 570px;
+      }
+</style>
 <div class="container">
   <div class = "well" style="font-size: 16px;">
    <h3 style="text-align:left">Peptides Informations</h3>
@@ -154,6 +163,13 @@
    <p><i class = "fa fa-info-circle"></i>
        In this table,user can search and download active peptides for ESKAPE strains and phages
    </p>
+   <hr>
+   <div class="left">
+       <img src="../static/image/peptide.png" style="width: 480px;height: 250px">
+   </div>
+   <div class="right">
+       <img src="../static/image/peptide1.png" style="width: 480px">
+   </div>
   </div>
 </div>
 <br>
@@ -161,9 +177,9 @@
 <!-- Page Content-->
 <div class="container">
 	<br>
-    <h3 id='name' style="text-align:center"></h3>
+    <h3 id='name' style="text-align:left"></h3>
 	<br>
-	<br>
+	<hr>
     <table class="table table-bordered table-hover" id="peptides" width="100%">
         <thead>
             <tr>

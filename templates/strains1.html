@@ -169,19 +169,19 @@
           <table class="table">
             <tbody>
                 <tr>
-                    <td><b>Latin:</b></td>
+                    <td><b id="Latin"></b></td>
                     <td id="latin"></td>
                 </tr>
                 <tr>
-                    <td><b>Genus:</b></td>
+                    <td><b id="Genus"></b></td>
                     <td id="genus"></td>
                 </tr>
                   <tr>
-                    <td><b>Distribution:</b></td>
+                    <td><b id="Dis"></b></td>
                     <td id="dis"></td>
                 </tr>
                   <tr>
-                    <td><b>Gram:</b></td>
+                    <td><b id="Gram"></b></td>
                     <td id="gram"></td>
                 </tr>
                 <tr>
@@ -198,9 +198,9 @@
 <!-- Page Content-->
 <div class="container">
 	<br>
-    <h3 id='name' style="text-align:center"></h3>
+    <h3 id='name' style="text-align:left"></h3>
 	<br>
-	<br>
+	<hr>
     <table class="table table-bordered table-hover" id="peptides" width="100%">
         <thead>
             <tr>
@@ -251,9 +251,14 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
     }
 	$("#name").html(name);
 
-    if(name =='Staphylococcus aureus Genome'){
-        var img = ' <img src="../static/image/S_aureus.jpg" style="width: 480px">';
+    if(name == 'Staphylococcus aureus Genome'){
+        var img = '<img src="../static/image/S_aureus.jpg" style="width: 480px">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Staphylococcus aureus');
         $("#genus").html('Staphylococcus');
         $("#dis").html('Anywhere');
@@ -261,9 +266,14 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         var contact_table = 'Staphylococcus aureus is a common foodborne pathogen and widely exists in natural environment.Under the right conditions, Staphylococcus aureus can produce enterotoxin and cause food poisoning.Reports of food poisoning caused by Staphylococcus aureus are numerous.Staphylococcus aureus accounts for about 25% of foodborne microbial food poisoning incidents,and Staphylococcus aureus is the third largest microbial cause after salmonella and parahemolyticus.';
         $("#contact").html(contact_table);
 	  }
-    else if(name =='Enterococcus Faecium Genome'){
+    else if(name == 'Enterococcus Faecium Genome'){
         var img = ' <img src="../static/image/E_Faecium.png" style="width: 480px">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Enterococcus Faecium');
         $("#genus").html('Enterococcus genus');
         $("#dis").html('Human and animal intestines');
@@ -271,9 +281,14 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         var contact_table = 'Enterococcus faecium is a round or oval, single, paired or short chain of gram-positive coccus, no spore, no flagellate, aerobic or facultative anaerobic bacteria, observed under oil microscope Enterococcus faecium body is more solitary, less opposite and chain. Enterococcus faecium has high nutritional requirements. After being cultured at 37℃ on the blood plate for 18h, it can form pale, opaque, smooth and round colonies with a diameter of 0.5 ~ 1mm without hemolysis. It can grow rapidly in YPD and MRS Medium.';
         $("#contact").html(contact_table);
 	  }
-    else if(name =='Klebsiella pneumoniae Genome'){
+    else if(name == 'Klebsiella pneumoniae Genome'){
         var img = ' <img src="../static/image/K_pneumoniae.png" style="width: 480px">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Klebsiella pneumoniae');
         $("#genus").html('Klebsiella');
         $("#dis").html('Human and non-human primates');
@@ -281,9 +296,14 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         var contact_table = 'Klebsiella pneumoniae is Gram-negative, non-motility, encapsulated baculobacter that is present in the nasopharynx and gastrointestinal tract of human and non-human primates. It belongs to Klebsiella and Enterobacteriaceae. It is facultative anaerobic, negative for oxidase, and produces acids and gases from lactose. It is an intestinal bacterium that is found in the gut of 5% of healthy people. It can also reside in the skin and mouth.Klebsiella pneumoniae can occur naturally in the gut and respiratory tract of healthy individuals, and infections rarely occur in people with healthy immune systems.';
         $("#contact").html(contact_table);
 	  }
-    else if(name =='Acinetobacter baumannii Genome'){
+    else if(name == 'Acinetobacter baumannii Genome'){
         var img = ' <img src="../static/image/A_baumannii.png" style="width: 480px">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Acinetobacter baumannii');
         $("#genus").html('Acinetobacter genus');
         $("#dis").html('Natural water and soil,hospital environment and human skin');
@@ -291,9 +311,14 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         var contact_table = 'Acinetobacter baumannii is a strictly aerobic, non-lactose fermentation conditional pathogen, no flagellate, not high mobility, but strong vitality, can exist widely in nature. This bacterium is a common nosocomial infection in Acinetobacter and is also a pathogen of aquaculture animals.Acinetobacter Baumannii has become a major source of hospital infections, especially in intensive care units. Due to the overuse of antibiotics, the bacterium has become resistant to Acinetobacter baumannii and become "multidrug-resistant Acinetobacter Baumannii". The only way to combat multidrug-resistant Acinetobacter baumannii is with a back-line antibiotic like tigeromycin.';
         $("#contact").html(contact_table);
     }
-    else if(name =='Pseudomonas aeruginosa Genome'){
+    else if(name == 'Pseudomonas aeruginosa Genome'){
         var img = ' <img src="../static/image/P_aeruginosa.png" style="width: 480px">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Pseudomonas aeruginosa');
         $("#genus").html('Pseudomonas');
         $("#dis").html('The wet environment');
@@ -301,9 +326,14 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         var contact_table = 'Pseudomonas aeruginosa is a common opportunistic pathogen, belonging to non-fermented Gram-negative bacillus. Thalli are slender and of different lengths, sometimes ball rod or linear, paired or short chain arrangement. There is a single flagella at one end of the thalli, and the bacteria are active when observed under dark field microscope or phase contrast microscope. Pseudomonas aeruginosa is an obligate aerobic bacterium, the growth temperature range is 25~42℃, and the optimum growth temperature is 25~30℃.';
         $("#contact").html(contact_table);
     }
-     else if(name =='Enterobacter aerogenes Genome'){
+     else if(name == 'Enterobacter aerogenes Genome'){
         var img = ' <img src="../static/image/E_aerogenes.png" style="width: 480px">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Enterobacter aerogenes');
         $("#genus").html('Enteroaerobacter');
         $("#dis").html('Animal intestines,feces,river water,soil and feed');
@@ -311,9 +341,14 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         var contact_table = 'Enterobacter aerogenes live mainly in the intestines of humans and animals. The normal flora of the human body only occasionally causes disease under special circumstances when the human body is weak. It also lives in water, soil and spoilage. But you can survive alone. Enterobacteriaceae can adapt to a wide range of temperatures, between 15 and 40℃. Enterobacter aerogenes is most suitable to grow in the temperature of 30℃, pH=7 environment. Enterobacter aerobacter is widely found in water, soil and other environments. It can cause urinary tract infection, respiratory tract infection, wound infection, sepsis and other diseases.';
         $("#contact").html(contact_table);
     }
-     else if(name =='Enterobacter cloacae Genome'){
+     else if(name == 'Enterobacter cloacae Genome'){
         var img = ' <img src="../static/image/E_cloacae.png" style="width: 420px;">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Enterobacter cloacae');
         $("#genus").html('Enterobacterium');
         $("#dis").html('Human and animal feces water, soil, plants');
@@ -321,15 +356,115 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         var contact_table = 'Enterobacter cloacae exists widely in nature. It can be detected in human and animal feces, water, soil and plants as one of the normal intestinal bacteria, but can be used as conditional pathogenic bacteria. With the widespread use of cephalosporins, Enterobacter cloacae has become an increasingly important pathogen of nosocomial infection. The bacterial infectious diseases caused by enterobacter cloacae often involve multiple organ systems. The serious drug resistance of E. cloacae to extend-spectrum β-lactamases (ESBLs) and Amp C enzymes, including skin and soft tissue infections, urinary tract infections, respiratory infections and septicemia, poses new challenges for clinical treatment.';
         $("#contact").html(contact_table);
     }
-     else if(name =='Escherichia coli Genome'){
+     else if(name == 'Escherichia coli Genome'){
         var img = ' <img src="../static/image/E_coli.png" style="width: 480px;">';
         $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
         $("#latin").html('Escherichia coli');
         $("#genus").html('Eschella');
         $("#dis").html('Human and animal intestinal normal host');
         $("#gram").html('Gram-negative bacteria');
         var contact_table = 'Escherichia coli is a short bacterium with blunt rounded ends and gram negative. Sometimes because of the different environment, individual thalli appear approximately spherical rod or long filament; E. coli are usually found in single or two, but they do not form long chains. Most E. coli strains have capsular or microcapsular structure, but can not form spores. Most E. coli strains grow pili, some of which are host-specific pili that have adhesion to the host and some other tissues or cells. The biochemical metabolism of E. coli is very active. Escherichia coli can ferment glucose to produce acid and gas, individual strains do not produce gas, Escherichia coli can also ferment a variety of carbohydrates, can also use a variety of organic acid salts.';
         $("#contact").html(contact_table);
+    }
+    else if(name == 'Escherichia coli Genome'){
+        var img = ' <img src="../static/image/E_coli.png" style="width: 480px;">';
+        $("#imgID").html(img);
+        $("#Latin").html('Latin:');
+        $("#Genus").html('Genus:');
+        $("#Dis").html('Distribution:');
+        $("#Gram").html('Gram:');
+
+        $("#latin").html('Escherichia coli');
+        $("#genus").html('Eschella');
+        $("#dis").html('Human and animal intestinal normal host');
+        $("#gram").html('Gram-negative bacteria');
+        var contact_table = 'Escherichia coli is a short bacterium with blunt rounded ends and gram negative. Sometimes because of the different environment, individual thalli appear approximately spherical rod or long filament; E. coli are usually found in single or two, but they do not form long chains. Most E. coli strains have capsular or microcapsular structure, but can not form spores. Most E. coli strains grow pili, some of which are host-specific pili that have adhesion to the host and some other tissues or cells. The biochemical metabolism of E. coli is very active. Escherichia coli can ferment glucose to produce acid and gas, individual strains do not produce gas, Escherichia coli can also ferment a variety of carbohydrates, can also use a variety of organic acid salts.';
+        $("#contact").html(contact_table);
+    }
+
+
+    else if(name == 'Staphylococcus aureus phages Genome'){
+        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        $("#imgID").html(img);
+        $("#Latin").html('Phages:');
+        $("#Genus").html('Host:');
+        $("#Dis").html('Consrtm:');
+        $("#Gram").html('Reference type:');
+
+        $("#latin").html('Staphylococcus aureus phages');
+        $("#genus").html('Staphylococcus aureus');
+        $("#dis").html('NCBI Genome Project');
+        $("#gram").html('RefSeq');
+	  }
+    else if(name =='Enterococcus Faecium phages Genome'){
+        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        $("#imgID").html(img);
+        $("#Latin").html('Phages:');
+        $("#Genus").html('Host:');
+        $("#Dis").html('Consrtm:');
+        $("#Gram").html('Reference type:');
+
+        $("#latin").html('Enterococcus Faecium phages');
+        $("#genus").html('Enterococcus Faecium');
+        $("#dis").html('NCBI Genome Project');
+        $("#gram").html('RefSeq');
+	  }
+    else if(name =='Klebsiella pneumoniae phages Genome'){
+        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        $("#imgID").html(img);
+        $("#Latin").html('Phages:');
+        $("#Genus").html('Host:');
+        $("#Dis").html('Consrtm:');
+        $("#Gram").html('Reference type:');
+
+        $("#latin").html('Klebsiella pneumoniae phages');
+        $("#genus").html('Klebsiella pneumoniae');
+        $("#dis").html('NCBI Genome Project');
+        $("#gram").html('RefSeq');
+	  }
+    else if(name =='Acinetobacter baumannii phages Genome'){
+        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        $("#imgID").html(img);
+        $("#Latin").html('Phages:');
+        $("#Genus").html('Host:');
+        $("#Dis").html('Consrtm:');
+        $("#Gram").html('Reference type:');
+
+        $("#latin").html('Acinetobacter baumannii phages');
+        $("#genus").html('Acinetobacter baumannii');
+        $("#dis").html('NCBI Genome Project');
+        $("#gram").html('RefSeq');
+    }
+    else if(name =='Pseudomonas aeruginosa phages Genome'){
+        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        $("#imgID").html(img);
+        $("#Latin").html('Phages:');
+        $("#Genus").html('Host:');
+        $("#Dis").html('Consrtm:');
+        $("#Gram").html('Reference type:');
+
+        $("#latin").html('Pseudomonas aeruginosa phages');
+        $("#genus").html('Pseudomonas aeruginosa');
+        $("#dis").html('NCBI Genome Project');
+        $("#gram").html('RefSeq');
+    }
+     else if(name =='Escherichia coli phages Genome'){
+        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        $("#imgID").html(img);
+        $("#Latin").html('Phages:');
+        $("#Genus").html('Host:');
+        $("#Dis").html('Consrtm:');
+        $("#Gram").html('Reference type:');
+
+        $("#latin").html('Escherichia coli phages');
+        $("#genus").html('Escherichia coli');
+        $("#dis").html('NCBI Genome Project');
+        $("#gram").html('RefSeq');
     }
 
 },false);

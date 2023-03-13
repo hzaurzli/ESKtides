@@ -432,13 +432,13 @@ def download_file():
     if request.method == "GET":
         data = request.args.to_dict()
         print(type(data))
-        with open("D:/tools/Pycharm/flask/static/seq/" + data["name"] + ".fa", "w") as w:
+        with open("./static/seq/" + data["name"] + ".fa", "w") as w:
             line = ">" + data["name"] + "\n" + data["seq"] + "\n"
             print(line)
             w.write(line)
         w.close()
 
-        file = "http://127.0.0.1:5000/static/seq/" + data["name"] + ".fa"
+        file = "http://113.57.10.23:9000/static/seq/" + data["name"] + ".fa"
         return file
 
 
@@ -554,4 +554,4 @@ def propert(file):
     return rst
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="113.57.10.23", port=9000)

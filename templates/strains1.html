@@ -482,7 +482,7 @@ $(document).ready(function(){ //生命周期函数，注意顺序
         "ordering":true,
         "lengthMenu": [15],
         ajax: {
-            url: 'http://127.0.0.1:5000/strain_ajax/',
+            url: 'http://113.57.10.23:9000/strain_ajax/',
             type: "GET",
             data: function(d){// 添加额外的参数传递到后台
                 d.extra_search = $('#name').text();
@@ -505,7 +505,7 @@ $(document).ready(function(){ //生命周期函数，注意顺序
           {'data':'ORF_number'},
           {'data':'Detail',
               render: function(data, type, row) {
-                  return '<a href="http://127.0.0.1:5000/detail/' +
+                  return '<a href="http://113.57.10.23:9000/detail/' +
                       row.Detail + '?strains=' + row.Accession + '">' +
                       data + '</a>';
                   }

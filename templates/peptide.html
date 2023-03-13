@@ -242,7 +242,7 @@ var getseq = function(x){
     };
 
      $.ajax({
-              url: "http://127.0.0.1:5000/download_file/", //json文件位置
+              url: "http://113.57.10.23:9000/download_file/", //json文件位置
               type: "GET", //请求方式为get
               dataType: "",
               data: my_data,
@@ -276,7 +276,7 @@ $(document).ready(function(){//生命周期函数，注意顺序
         "ordering":true,
         "lengthMenu": [15],
         ajax: {
-            url: 'http://127.0.0.1:5000/tides/',
+            url: 'http://113.57.10.23:9000/tides/',
             type: "GET",
             data: function(d){// 添加额外的参数传递到后台
                 d.extra_search = $('#name').text();

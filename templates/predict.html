@@ -199,7 +199,7 @@
             alert("Please add your Fasta file!!")
         }else {
              $.ajax({
-                    url: "http://127.0.0.1:5000/up_file/",
+                    url: "http://113.57.10.23:9000/up_file/",
                     data: form_data,
                     type: "post",
                     dataType: "json",
@@ -230,7 +230,7 @@
                                 // "bPaginate":true,
                                 "ordering":true,
                                 ajax: {
-                                    url: 'http://127.0.0.1:5000/static/predictdata/result-act-json.txt',
+                                    url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
                                     type: "GET"
                                 },
                                 dom:'Bfrtip',

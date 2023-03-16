@@ -199,6 +199,7 @@
            console.log(dat);
            $.ajax({
                url: "http://113.57.10.23:9000/propert_input_up_file/",
+               timeout: 60000,
                data: dat,
                type: "get",//一律用get请求
                dataType: "json",
@@ -230,6 +231,7 @@
                                 "ordering":true,
                                 ajax: {
                                     url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                    timeout: 60000,
                                     type: "GET"
                                 },
                                 dom:'Bfrtip',
@@ -265,6 +267,7 @@
         }else {
              $.ajax({
                     url: "http://113.57.10.23:9000/propert_up_file/",
+                    timeout: 60000,
                     data: form_data,
                     type: "post",
                     dataType: "json",
@@ -299,6 +302,7 @@
                                 "ordering":true,
                                 ajax: {
                                     url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                    timeout: 60000,
                                     type: "GET"
                                 },
                                 dom:'Bfrtip',

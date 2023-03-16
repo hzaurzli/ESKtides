@@ -96,6 +96,10 @@ def download():
 def help():
     return render_template('help.html')
 
+@app.route('/aa.html', methods=['get', 'post'])
+def aa():
+    return render_template('../static/phylogeny-tree.html')
+
 #########################################ajax
 @app.route('/strain_ajax/', methods=['GET', 'POST'])
 def strain_ajax():
@@ -400,6 +404,21 @@ def up_file():
 
         return rst
 
+
+@app.route('/input_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
+def input_up_file():
+    if request.method == "GET":
+        with open('./static/predictdata/input.fa','w') as fa:
+            data = request.args.get('seq')
+            fa.write(data)
+        fa.close()
+
+        time.sleep(3)
+        rst = calculation('./static/propert/input.fa')
+
+        return rst
+
+
 @app.route('/propert_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
 def propert_up_file():
     if request.method == "POST":
@@ -432,13 +451,13 @@ def download_file():
     if request.method == "GET":
         data = request.args.to_dict()
         print(type(data))
-        with open("./static/seq/" + data["name"] + ".fa", "w") as w:
+        with open("D:/tools/Pycharm/flask/static/seq/" + data["name"] + ".fa", "w") as w:
             line = ">" + data["name"] + "\n" + data["seq"] + "\n"
             print(line)
             w.write(line)
         w.close()
 
-        file = "http://113.57.10.23:9000/static/seq/" + data["name"] + ".fa"
+        file = "http://127.0.0.1:5000/static/seq/" + data["name"] + ".fa"
         return file
 
 
@@ -450,7 +469,7 @@ def detail(Strains):
 def calculation(fasta):
     path = './static/predictdata'
 
-    os.system(r".\static\tools\perl\bin\perl.exe .\static\tools\perl\format.pl %s none > %s"
+    os.system("perl ./static/tools/perl/format.pl %s none > %s"
              % (fasta, path + '/tmp.txt'))
     time.sleep(5)
 
@@ -498,7 +517,7 @@ def calculation(fasta):
         with open(path + '/result-act.txt') as r:
             for one in r:
                 one = one.strip().split('\t')
-                if float(one[2]) >= 0.5:
+                if float(one[2]) >= 0:
                     data = {"ID": count, "ORF": one[0], "Sequence": one[1],
                             "Score": one[2]}
                     count += 1
@@ -554,4 +573,4 @@ def propert(file):
     return rst
 
 if __name__ == "__main__":
-    app.run(host="113.57.10.23", port=9000)
+    app.run()

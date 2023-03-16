@@ -55,7 +55,7 @@ class annotate(db.Model):
     Type = db.Column(db.String(200))
 
 #################################### Router
-@app.route('/', methods=['get', 'post'])
+@app.route('/ESKtides', methods=['get', 'post'])
 def home():
     return render_template('home.html')
 

@@ -201,7 +201,7 @@
                timeout: 60000,
                data: dat,
                type: "get",//一律用get请求
-               dataType: "json",
+               dataType: "text",
                beforeSend: function () {
                    $("#loading").html("<h4 style='text-align:center'>Please wait!!!</h4><img src='../static/image/loading.gif' class='aligncenter'>")
                    $("#table").empty()
@@ -209,8 +209,41 @@
                complete: function () {
                    $("#loading").empty()
                },
-               error: function (jqXHR, textStatus, errorThrown) {
-                   alert("Please check your file format: Fasta!!!")
+               error: function (response,status,xhr) {
+                   console.log(response.status);
+                   if(response.status == 408){
+                       $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
+
+                        $('#peptides').DataTable({
+                                //"retrieve": true,
+                                //"serverSide":true,
+                                "searching":true,
+                                "processing":true,
+                                "paging":true,
+                                //"bServerSide":true,
+                                //"bProcessing":true,
+                                // "bPaginate":true,
+                                "ordering":true,
+                                ajax: {
+                                    url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
+                                    timeout: 60000,
+                                    type: "GET"
+                                },
+                                dom:'Bfrtip',
+                                buttons:[
+                                  'copy','csv','excel','pdf','print'
+                                ],
+                                "columns":[
+                                  {'data':'ID'},
+                                  {'data':'ORF'},
+                                  {'data':'Sequence'},
+                                  {'data':'Score'}
+                                ],
+                            })
+                         }    
+                   else{
+                         alert("Please check your file format: Fasta!!!")
+                   }  
                },
                success: function (result) {
                    $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
@@ -260,10 +293,9 @@
         }else {
              $.ajax({
                     url: "http://113.57.10.23:9000/up_file/",
-                    timeout: 60000,
                     data: form_data,
                     type: "post",
-                    dataType: "json",
+                    dataType: "text",
                     cache: false,//上传文件无需缓存
                     processData: false,//用于对data参数进行序列化处理 这里必须false
                     contentType: false, //必须
@@ -274,9 +306,42 @@
                     complete:function(){
                         $("#loading").empty()
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert("Please check your file format: Fasta!!!" )
-                    },
+                  error: function (response,status,xhr) {
+                         console.log(response.status);
+                         if(response.status == 408){
+                             $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
+      
+                              $('#peptides').DataTable({
+                                      //"retrieve": true,
+                                      //"serverSide":true,
+                                      "searching":true,
+                                      "processing":true,
+                                      "paging":true,
+                                      //"bServerSide":true,
+                                      //"bProcessing":true,
+                                      // "bPaginate":true,
+                                      "ordering":true,
+                                      ajax: {
+                                          url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
+                                          timeout: 60000,
+                                          type: "GET"
+                                      },
+                                      dom:'Bfrtip',
+                                      buttons:[
+                                        'copy','csv','excel','pdf','print'
+                                      ],
+                                      "columns":[
+                                        {'data':'ID'},
+                                        {'data':'ORF'},
+                                        {'data':'Sequence'},
+                                        {'data':'Score'}
+                                      ],
+                                  })
+                         }
+                       else{
+                         alert("Please check your file format: Fasta!!!")
+                       }  
+                     },
                     success:function(result) {
                          $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
 

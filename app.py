@@ -399,7 +399,6 @@ def up_file():
         f = request.files['file']
         print(f.filename)
         f.save('./static/predictdata/' + f.filename)
-        time.sleep(3)
         rst = calculation('./static/predictdata/' + f.filename)
 
         return rst
@@ -413,8 +412,8 @@ def input_up_file():
             fa.write(data)
         fa.close()
 
-        time.sleep(3)
         rst = calculation('./static/propert/input.fa')
+        print(rst)
 
         return rst
 
@@ -451,13 +450,13 @@ def download_file():
     if request.method == "GET":
         data = request.args.to_dict()
         print(type(data))
-        with open("D:/tools/Pycharm/flask/static/seq/" + data["name"] + ".fa", "w") as w:
+        with open("./static/seq/" + data["name"] + ".fa", "w") as w:
             line = ">" + data["name"] + "\n" + data["seq"] + "\n"
             print(line)
             w.write(line)
         w.close()
 
-        file = "http://127.0.0.1:5000/static/seq/" + data["name"] + ".fa"
+        file = "http://113.57.10.23:9000/static/seq/" + data["name"] + ".fa"
         return file
 
 
@@ -527,7 +526,7 @@ def calculation(fasta):
         r.close()
         json.write(str(rst).replace("'","\"")) # JSON 格式一对要求双引号
     json.close()
-    return rst
+    return 'finished'
 
 def propert(file):
     sequence = ' '
@@ -573,4 +572,4 @@ def propert(file):
     return rst
 
 if __name__ == "__main__":
-    app.run()
+    app.run("113.57.10.23",port=9000)

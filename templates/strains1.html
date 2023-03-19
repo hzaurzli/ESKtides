@@ -221,6 +221,22 @@
     <br>
     <br>
 </div>
+<br>
+<hr>
+<div class="container">
+	<br>
+    <h3 style="text-align:left">Genome network</h3>
+    <div class = "well" style="font-size: 16px;">
+       <p><i class = "fa fa-info-circle"></i>
+           In this network,user can discover Genome relationships and PGHs distributions
+       </p>
+    </div>
+	<hr>
+    <div id="svg">
+    </div>
+    <br>
+    <br>
+</div>
 <!-- Footer-->
 <footer class="py-5 bg-dark">
   <div class="container">
@@ -252,6 +268,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
 	$("#name").html(name);
 
     if(name == 'Staphylococcus aureus Genome'){
+        var svg = '<embed src="../static/image/Staphylococcus_aureus.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         var img = '<img src="../static/image/S_aureus.jpg" style="width: 480px">';
         $("#imgID").html(img);
         $("#Latin").html('Latin:');
@@ -267,6 +285,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#contact").html(contact_table);
 	  }
     else if(name == 'Enterococcus Faecium Genome'){
+        var svg = '<embed src="../static/image/Enterococcus_Faecium.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         var img = ' <img src="../static/image/E_Faecium.png" style="width: 480px">';
         $("#imgID").html(img);
         $("#Latin").html('Latin:');
@@ -282,6 +302,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#contact").html(contact_table);
 	  }
     else if(name == 'Klebsiella pneumoniae Genome'){
+        var svg = '<embed src="../static/image/Klebsiella_pneumoniae.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         var img = ' <img src="../static/image/K_pneumoniae.png" style="width: 480px">';
         $("#imgID").html(img);
         $("#Latin").html('Latin:');
@@ -297,6 +319,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#contact").html(contact_table);
 	  }
     else if(name == 'Acinetobacter baumannii Genome'){
+        var svg = '<embed src="../static/image/Acinetobacter_baumannii.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         var img = ' <img src="../static/image/A_baumannii.png" style="width: 480px">';
         $("#imgID").html(img);
         $("#Latin").html('Latin:');
@@ -312,6 +336,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#contact").html(contact_table);
     }
     else if(name == 'Pseudomonas aeruginosa Genome'){
+        var svg = '<embed src="../static/image/Pseudomonas_aeruginosa.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         var img = ' <img src="../static/image/P_aeruginosa.png" style="width: 480px">';
         $("#imgID").html(img);
         $("#Latin").html('Latin:');
@@ -327,6 +353,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#contact").html(contact_table);
     }
      else if(name == 'Enterobacter aerogenes Genome'){
+        var svg = '<embed src="../static/image/Enterobacter_aerogenes.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         var img = ' <img src="../static/image/E_aerogenes.png" style="width: 480px">';
         $("#imgID").html(img);
         $("#Latin").html('Latin:');
@@ -342,8 +370,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#contact").html(contact_table);
     }
      else if(name == 'Enterobacter cloacae Genome'){
-        var img = ' <img src="../static/image/E_cloacae.png" style="width: 420px;">';
-        $("#imgID").html(img);
+        var svg = '<embed src="../static/image/Enterobacter_cloacae.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         $("#Latin").html('Latin:');
         $("#Genus").html('Genus:');
         $("#Dis").html('Distribution:');
@@ -357,21 +385,8 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#contact").html(contact_table);
     }
      else if(name == 'Escherichia coli Genome'){
-        var img = ' <img src="../static/image/E_coli.png" style="width: 480px;">';
-        $("#imgID").html(img);
-        $("#Latin").html('Latin:');
-        $("#Genus").html('Genus:');
-        $("#Dis").html('Distribution:');
-        $("#Gram").html('Gram:');
-
-        $("#latin").html('Escherichia coli');
-        $("#genus").html('Eschella');
-        $("#dis").html('Human and animal intestinal normal host');
-        $("#gram").html('Gram-negative bacteria');
-        var contact_table = 'Escherichia coli is a short bacterium with blunt rounded ends and gram negative. Sometimes because of the different environment, individual thalli appear approximately spherical rod or long filament; E. coli are usually found in single or two, but they do not form long chains. Most E. coli strains have capsular or microcapsular structure, but can not form spores. Most E. coli strains grow pili, some of which are host-specific pili that have adhesion to the host and some other tissues or cells. The biochemical metabolism of E. coli is very active. Escherichia coli can ferment glucose to produce acid and gas, individual strains do not produce gas, Escherichia coli can also ferment a variety of carbohydrates, can also use a variety of organic acid salts.';
-        $("#contact").html(contact_table);
-    }
-    else if(name == 'Escherichia coli Genome'){
+        var svg = '<embed src="../static/image/Escherichia_coli.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
         var img = ' <img src="../static/image/E_coli.png" style="width: 480px;">';
         $("#imgID").html(img);
         $("#Latin").html('Latin:');
@@ -389,7 +404,9 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
 
 
     else if(name == 'Staphylococcus aureus phages Genome'){
-        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        var svg = '<embed src="../static/image/Staphylococcus_aureus_phages.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
+        var img = ' <img src="../static/image/phage1.png" style="width: 410px;height: 200px">';
         $("#imgID").html(img);
         $("#Latin").html('Phages:');
         $("#Genus").html('Host:');
@@ -402,7 +419,9 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#gram").html('RefSeq');
 	  }
     else if(name =='Enterococcus Faecium phages Genome'){
-        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        var svg = '<embed src="../static/image/Enterococcus_Faecium_phages.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
+        var img = ' <img src="../static/image/phage2.png" style="width: 410px;height: 200px">';
         $("#imgID").html(img);
         $("#Latin").html('Phages:');
         $("#Genus").html('Host:');
@@ -415,7 +434,9 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#gram").html('RefSeq');
 	  }
     else if(name =='Klebsiella pneumoniae phages Genome'){
-        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        var svg = '<embed src="../static/image/Klebsiella_pneumoniae_phages.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
+        var img = ' <img src="../static/image/phage3.png" style="width: 410px;height: 200px">';
         $("#imgID").html(img);
         $("#Latin").html('Phages:');
         $("#Genus").html('Host:');
@@ -428,7 +449,9 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#gram").html('RefSeq');
 	  }
     else if(name =='Acinetobacter baumannii phages Genome'){
-        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        var svg = '<embed src="../static/image/Acinetobacter_baumannii_phages.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
+        var img = ' <img src="../static/image/phage4.png" style="width: 410px;height: 200px">';
         $("#imgID").html(img);
         $("#Latin").html('Phages:');
         $("#Genus").html('Host:');
@@ -441,7 +464,9 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#gram").html('RefSeq');
     }
     else if(name =='Pseudomonas aeruginosa phages Genome'){
-        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        var svg = '<embed src="../static/image/Pseudomonas_aeruginosa_phages.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
+        var img = '<img src="../static/image/phage5.png" style="width: 410px;height: 200px">';
         $("#imgID").html(img);
         $("#Latin").html('Phages:');
         $("#Genus").html('Host:');
@@ -454,7 +479,9 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
         $("#gram").html('RefSeq');
     }
      else if(name =='Escherichia coli phages Genome'){
-        var img = ' <img src="../static/image/phages.png" style="width: 450px;height: 200px;">';
+        var svg = '<embed src="../static/image/Escherichia_coli_phages.svg" type="image/svg+xml" align="center">';
+        $("#svg").html(svg);
+        var img = ' <img src="../static/image/phage6.png" style="width: 410px;height: 200px">';
         $("#imgID").html(img);
         $("#Latin").html('Phages:');
         $("#Genus").html('Host:');

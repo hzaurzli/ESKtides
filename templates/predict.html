@@ -190,6 +190,31 @@
     <script type="text/javascript">
 
         function input_cal(){
+          function sleep(n) { //n表示的毫秒数
+            var start = new Date().getTime();
+            while (true) if (new Date().getTime() - start > n) break;
+          }
+          
+          function fileExists(url) {
+                 var isExists;
+                 $.ajax({
+                     url: url,
+                     async: false,
+                     type: 'HEAD',
+                     error: function () {
+                         isExists = 0;
+                     },
+                     success: function () {
+                         isExists = 1;
+                     }
+                 });
+                 if (isExists == 1) {
+                     return true;
+                 } else {
+                     return false;
+                 }
+            }
+        
            //获取 输入框的值
            var seq = document.getElementById("enter").value;
            console.log(seq);
@@ -198,10 +223,9 @@
            console.log(dat);
            $.ajax({
                url: "http://113.57.10.23:9000/input_up_file/",
-               timeout: 60000,
                data: dat,
                type: "get",//一律用get请求
-               dataType: "text",
+               dataType: "",
                beforeSend: function () {
                    $("#loading").html("<h4 style='text-align:center'>Please wait!!!</h4><img src='../static/image/loading.gif' class='aligncenter'>")
                    $("#table").empty()
@@ -210,42 +234,54 @@
                    $("#loading").empty()
                },
                error: function (response,status,xhr) {
-                   console.log(response.status);
-                   if(response.status == 408){
-                       $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
-
-                        $('#peptides').DataTable({
-                                //"retrieve": true,
-                                //"serverSide":true,
-                                "searching":true,
-                                "processing":true,
-                                "paging":true,
-                                //"bServerSide":true,
-                                //"bProcessing":true,
-                                // "bPaginate":true,
-                                "ordering":true,
-                                ajax: {
-                                    url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
-                                    timeout: 60000,
-                                    type: "GET"
-                                },
-                                dom:'Bfrtip',
-                                buttons:[
-                                  'copy','csv','excel','pdf','print'
-                                ],
-                                "columns":[
-                                  {'data':'ID'},
-                                  {'data':'ORF'},
-                                  {'data':'Sequence'},
-                                  {'data':'Score'}
-                                ],
-                            })
-                         }    
-                   else{
+                         console.log(response.status);
+                         if(response.status == 408){
+                             while(true){
+                                 var Exists=fileExists('http://113.57.10.23:9000/static/predictdata/result-act-json.txt');
+                                 console.log(Exists);
+                                 if(Exists){
+                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
+      
+                                  $('#peptides').DataTable({
+                                          //"retrieve": true,
+                                          //"serverSide":true,
+                                          "searching":true,
+                                          "processing":true,
+                                          "paging":true,
+                                          //"bServerSide":true,
+                                          //"bProcessing":true,
+                                          // "bPaginate":true,
+                                          "ordering":true,
+                                          ajax: {
+                                              url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
+                                              timeout: 60000,
+                                              type: "GET"
+                                          },
+                                          dom:'Bfrtip',
+                                          buttons:[
+                                            'copy','csv','excel','pdf','print'
+                                          ],
+                                          "columns":[
+                                            {'data':'ID'},
+                                            {'data':'ORF'},
+                                            {'data':'Sequence'},
+                                            {'data':'Score'}
+                                          ],
+                                      });
+                                      break;
+                                 }
+                                 else{
+                                   sleep(1000);
+                                 }
+                             
+                             }
+                         }
+                       else{
                          alert("Please check your file format: Fasta!!!")
-                   }  
-               },
+                       }  
+                     },
                success: function (result) {
+                   console.log(result);
                    $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
                    
 
@@ -291,6 +327,31 @@
         if(typeof(fileObj)=='undefined'){
             alert("Please add your Fasta file!!")
         }else {
+              function sleep(n) { //n表示的毫秒数
+                var start = new Date().getTime();
+                while (true) if (new Date().getTime() - start > n) break;
+              }
+          
+              function fileExists(url) {
+                     var isExists;
+                     $.ajax({
+                         url: url,
+                         async: false,
+                         type: 'HEAD',
+                         error: function () {
+                             isExists = 0;
+                         },
+                         success: function () {
+                             isExists = 1;
+                         }
+                     });
+                     if (isExists == 1) {
+                         return true;
+                     } else {
+                         return false;
+                     }
+                }
+        
              $.ajax({
                     url: "http://113.57.10.23:9000/up_file/",
                     data: form_data,
@@ -309,34 +370,45 @@
                   error: function (response,status,xhr) {
                          console.log(response.status);
                          if(response.status == 408){
-                             $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
+                             while(true){
+                                 var Exists=fileExists('http://113.57.10.23:9000/static/predictdata/result-act-json.txt');
+                                 console.log(Exists);
+                                 if(Exists){
+                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
       
-                              $('#peptides').DataTable({
-                                      //"retrieve": true,
-                                      //"serverSide":true,
-                                      "searching":true,
-                                      "processing":true,
-                                      "paging":true,
-                                      //"bServerSide":true,
-                                      //"bProcessing":true,
-                                      // "bPaginate":true,
-                                      "ordering":true,
-                                      ajax: {
-                                          url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
-                                          timeout: 60000,
-                                          type: "GET"
-                                      },
-                                      dom:'Bfrtip',
-                                      buttons:[
-                                        'copy','csv','excel','pdf','print'
-                                      ],
-                                      "columns":[
-                                        {'data':'ID'},
-                                        {'data':'ORF'},
-                                        {'data':'Sequence'},
-                                        {'data':'Score'}
-                                      ],
-                                  })
+                                  $('#peptides').DataTable({
+                                          //"retrieve": true,
+                                          //"serverSide":true,
+                                          "searching":true,
+                                          "processing":true,
+                                          "paging":true,
+                                          //"bServerSide":true,
+                                          //"bProcessing":true,
+                                          // "bPaginate":true,
+                                          "ordering":true,
+                                          ajax: {
+                                              url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
+                                              timeout: 60000,
+                                              type: "GET"
+                                          },
+                                          dom:'Bfrtip',
+                                          buttons:[
+                                            'copy','csv','excel','pdf','print'
+                                          ],
+                                          "columns":[
+                                            {'data':'ID'},
+                                            {'data':'ORF'},
+                                            {'data':'Sequence'},
+                                            {'data':'Score'}
+                                          ],
+                                      });
+                                      break;
+                                 }
+                                 else{
+                                   sleep(1000);
+                                 }
+                             
+                             }
                          }
                        else{
                          alert("Please check your file format: Fasta!!!")

@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request
 import time
+from subprocess import *
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, func
 from keras.models import load_model
 from numpy import loadtxt, savetxt
 import sys,os
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
+import json
 
 
 app = Flask(__name__)
@@ -399,7 +401,26 @@ def up_file():
         f = request.files['file']
         print(f.filename)
         f.save('./static/predictdata/' + f.filename)
-        rst = calculation('./static/predictdata/' + f.filename)
+        
+        with open('./static/predictdata/input.fa','w') as fa:
+          lis = []
+          with open('./static/predictdata/' + f.filename,'r') as fd:
+            for i in fd:
+              i = i.strip()
+              if i != '':
+                lis.append(i)
+          fd.close() 
+          line = '\n'.join(lis) + '\n' + '>testrz' +'\n' + 'YRGLKWRLQWLLRKCR'
+          fa.write(line)
+        fa.close()
+
+        if os.path.exists('./static/predictdata/result-act-json.txt'):
+            os.remove('./static/predictdata/result-act-json.txt')
+            
+        if os.path.exists('./static/predictdata/result-act.txt'):
+            os.remove('./static/predictdata/result-act.txt')
+        
+        rst = calculation('./static/predictdata/input.fa')
 
         return rst
 
@@ -408,14 +429,22 @@ def up_file():
 def input_up_file():
     if request.method == "GET":
         with open('./static/predictdata/input.fa','w') as fa:
-            data = request.args.get('seq')
+            data = request.args.get('seq').strip()
+            data = data + '\n' + '>testrz' +'\n' + 'YRGLKWRLQWLLRKCR'
             fa.write(data)
         fa.close()
-
-        rst = calculation('./static/propert/input.fa')
+        
+        if os.path.exists('./static/predictdata/result-act-json.txt'):
+            os.remove('./static/predictdata/result-act-json.txt')
+            
+        if os.path.exists('./static/predictdata/result-act.txt'):
+            os.remove('./static/predictdata/result-act.txt')
+        
+        rst = calculation('./static/predictdata/input.fa')
+        
         print(rst)
-
         return rst
+        
 
 
 @app.route('/propert_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
@@ -425,6 +454,10 @@ def propert_up_file():
         print(f.filename)
         f.save('./static/propert/' + f.filename)
         time.sleep(3)
+        
+        if os.path.exists('./static/propert/propert-json.txt'):
+            os.remove('./static/propert/propert-json.txt')
+            
         rst = propert('./static/propert/' + f.filename)
 
         return rst
@@ -435,12 +468,13 @@ def propert_up_file():
 def propert_input_up_file():
     if request.method == "GET":
         with open('./static/propert/input.fa','w') as fa:
-            data = request.args.get('seq')
+            data = request.args.get('seq').strip()
             fa.write(data)
         fa.close()
 
         time.sleep(3)
         rst = propert('./static/propert/input.fa')
+        print(rst)
 
         return rst
 
@@ -465,13 +499,13 @@ def detail(Strains):
     return render_template('strains2.html')
 
 ###############################################cal
+
 def calculation(fasta):
-    path = './static/predictdata'
-
-    os.system("perl ./static/tools/perl/format.pl %s none > %s"
-             % (fasta, path + '/tmp.txt'))
-    time.sleep(5)
-
+    path = './static/predictdata'    
+    
+    os.system("perl ./static/tools/perl/format.pl %s none > %s" % (fasta, path + '/tmp.txt'))
+    time.sleep(3)
+    
     model = load_model('./static/tools/Activity/lstm.h5')
     x = loadtxt(path + '/tmp.txt', delimiter=",")
     preds = model.predict(x)
@@ -487,6 +521,7 @@ def calculation(fasta):
             else:
                 fa_dict[seq_name] += line.replace('\n', '')
     fa.close()
+    fa_dict.pop('testrz')
 
     lis = []
     with open(path + '/tmpActivity.txt') as ac:
@@ -494,6 +529,7 @@ def calculation(fasta):
             i = i.replace('\n', '')
             lis.append(i)
     ac.close()
+    del(lis[-1])
 
     for i_1 in range(0, len(lis)):
         key = list(fa_dict.keys())[i_1]
@@ -524,9 +560,10 @@ def calculation(fasta):
                     rst = {}
                     rst["data"] = alldata
         r.close()
-        json.write(str(rst).replace("'","\"")) # JSON 格式一对要求双引号
+        json.write(str(rst).replace("'","\"")) # JSON 格式一定要求双引号
     json.close()
-    return 'finished'
+    return rst
+
 
 def propert(file):
     sequence = ' '
@@ -569,6 +606,7 @@ def propert(file):
             rst["data"] = alldata
         json.write(str(rst).replace("'", "\""))  # JSON 格式一定要求双引号
     json.close()
+    
     return rst
 
 if __name__ == "__main__":

@@ -191,6 +191,32 @@
     <script type="text/javascript">
 
         function input_cal(){
+          function sleep(n) { //n表示的毫秒数
+            var start = new Date().getTime();
+            while (true) if (new Date().getTime() - start > n) break;
+          }
+          
+          function fileExists(url) {
+                 var isExists;
+                 $.ajax({
+                     url: url,
+                     async: false,
+                     type: 'HEAD',
+                     error: function () {
+                         isExists = 0;
+                     },
+                     success: function () {
+                         isExists = 1;
+                     }
+                 });
+                 if (isExists == 1) {
+                     return true;
+                 } else {
+                     return false;
+                 }
+            }
+        
+        
            //获取 输入框的值
            var seq = document.getElementById("enter").value;
            console.log(seq);
@@ -210,9 +236,60 @@
                complete: function () {
                    $("#loading").empty()
                },
-               error: function (jqXHR, textStatus, errorThrown) {
-                   alert("Please check your file format: Fasta!!!")
-               },
+               error: function (response,status,xhr) {
+                         console.log(response.status);
+                         if(response.status == 408){
+                             while(true){
+                                 var Exists=fileExists('http://113.57.10.23:9000/static/propert/propert-json.txt');
+                                 console.log(Exists);
+                                 if(Exists){
+                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +
+                       '<th>Isoelectric point</th><th>Charge</th><th>Secondary structure fraction</th></tr></thead>' +
+                       '<tbody></tbody></table>')
+
+                                   $('#peptides').DataTable({
+                                                //"retrieve": true,
+                                                //"serverSide":true,
+                                                "searching":true,
+                                                "processing":true,
+                                                "paging":true,
+                                                //"bServerSide":true,
+                                                //"bProcessing":true,
+                                                // "bPaginate":true,
+                                                "ordering":true,
+                                                ajax: {
+                                                    url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                                    timeout: 60000,
+                                                    type: "GET"
+                                                },
+                                                dom:'Bfrtip',
+                                                buttons:[
+                                                  'copy','csv','excel','pdf','print'
+                                                ],
+                                                "columns":[
+                                                  {'data':'ID'},
+                                                  {'data':'Peptide'},
+                                                  {'data':'Molecular weight'},
+                                                  {'data':'Aromaticity'},
+                                                  {'data':'Instability index'},
+                                                  {'data':'Isoelectric point'},
+                                                  {'data':'Charge'},
+                                                  {'data':'Secondary structure fraction'}
+                                                ],
+                                            })
+                                      break;
+                                 }
+                                 else{
+                                   sleep(1000);
+                                 }
+                             
+                             }
+                         }
+                       else{
+                         alert("Please check your file format: Fasta!!!")
+                       }  
+                     },
                success: function (result) {
                    $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
                        '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +
@@ -265,6 +342,31 @@
         if(typeof(fileObj)=='undefined'){
             alert("Please add your Fasta file!!")
         }else {
+            function sleep(n) { //n表示的毫秒数
+              var start = new Date().getTime();
+              while (true) if (new Date().getTime() - start > n) break;
+            }
+        
+            function fileExists(url) {
+                   var isExists;
+                   $.ajax({
+                       url: url,
+                       async: false,
+                       type: 'HEAD',
+                       error: function () {
+                           isExists = 0;
+                       },
+                       success: function () {
+                           isExists = 1;
+                       }
+                   });
+                   if (isExists == 1) {
+                       return true;
+                   } else {
+                       return false;
+                   }
+              }
+        
              $.ajax({
                     url: "http://113.57.10.23:9000/propert_up_file/",
                     timeout: 60000,
@@ -281,9 +383,60 @@
                     complete:function(){
                         $("#loading").empty()
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert("Please check your file format: Fasta!!!" )
-                    },
+                    error: function (response,status,xhr) {
+                         console.log(response.status);
+                         if(response.status == 408){
+                             while(true){
+                                 var Exists=fileExists('http://113.57.10.23:9000/static/propert/propert-json.txt');
+                                 console.log(Exists);
+                                 if(Exists){
+                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +
+                       '<th>Isoelectric point</th><th>Charge</th><th>Secondary structure fraction</th></tr></thead>' +
+                       '<tbody></tbody></table>')
+
+                                   $('#peptides').DataTable({
+                                                //"retrieve": true,
+                                                //"serverSide":true,
+                                                "searching":true,
+                                                "processing":true,
+                                                "paging":true,
+                                                //"bServerSide":true,
+                                                //"bProcessing":true,
+                                                // "bPaginate":true,
+                                                "ordering":true,
+                                                ajax: {
+                                                    url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                                    timeout: 60000,
+                                                    type: "GET"
+                                                },
+                                                dom:'Bfrtip',
+                                                buttons:[
+                                                  'copy','csv','excel','pdf','print'
+                                                ],
+                                                "columns":[
+                                                  {'data':'ID'},
+                                                  {'data':'Peptide'},
+                                                  {'data':'Molecular weight'},
+                                                  {'data':'Aromaticity'},
+                                                  {'data':'Instability index'},
+                                                  {'data':'Isoelectric point'},
+                                                  {'data':'Charge'},
+                                                  {'data':'Secondary structure fraction'}
+                                                ],
+                                            })
+                                      break;
+                                 }
+                                 else{
+                                   sleep(1000);
+                                 }
+                             
+                             }
+                         }
+                       else{
+                         alert("Please check your file format: Fasta!!!")
+                       }  
+                     },
                     success:function(result) {
                         $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
                             '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +

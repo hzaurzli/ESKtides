@@ -239,7 +239,7 @@
                              while(true){
                                  var Exists=fileExists('http://113.57.10.23:9000/static/predictdata/result-act-json.txt');
                                  console.log(Exists);
-                                 if(Exists){ // 判断是否生成文件,否则延时 1 s,直到文件生成退出循环
+                                 if(Exists){
                                    $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
       
                                   $('#peptides').DataTable({

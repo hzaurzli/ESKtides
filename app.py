@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import time
 from subprocess import *
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, and_
 from keras.models import load_model
 from numpy import loadtxt, savetxt
 import sys,os
@@ -298,7 +298,11 @@ def tides():
     param = request.args.to_dict()
     print(param)
     page = param['start']
-    strain_type = param['extra_search']
+    strain_type = param['extra_search'].split('=')[0]
+    min = param['extra_search'].split('=')[1]
+    max = param['extra_search'].split('=')[2]
+    minact = param['extra_search'].split('=')[3]
+    maxact = param['extra_search'].split('=')[4]
     pageSize = 15
     tag = param['search[value]']
     search = "%{}%".format(tag)
@@ -308,16 +312,40 @@ def tides():
     if tag == "":
         if dir_sort == 'desc':
             result_db = peptide.query.filter(
-                peptide.Type.like(strain_type)).order_by(getattr(peptide, selection).desc())
+                peptide.Type.like(strain_type),
+                and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     )).order_by(getattr(peptide, selection).desc())
+
             count_num = result_db.session.query(func.count(peptide.ID)).filter(
-                peptide.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+                peptide.Type.like(strain_type),
+                and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     )
+            ).scalar()  # 大数据对表计数的方法
             result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
         else:
             result_db = peptide.query.filter(
-                peptide.Type.like(strain_type)).order_by(getattr(peptide, selection).asc())
+                peptide.Type.like(strain_type),
+                and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     )).order_by(getattr(peptide, selection).asc())
+
             t1 = time.time()
             count_num = result_db.session.query(func.count(peptide.ID)).filter(
-                peptide.Type.like(strain_type)).scalar()  # 大数据对表计数的方法
+                peptide.Type.like(strain_type),
+                and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     )
+            ).scalar()  # 大数据对表计数的方法
             t2 = time.time()
             print(t2-t1)
             result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
@@ -327,6 +355,11 @@ def tides():
     else:
         if dir_sort == 'desc':
             result_db = peptide.query.filter(peptide.Type.like(strain_type),
+                and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     ),
                 or_(peptide.ID.like(search),
                     peptide.Number.like(search),
                     peptide.Peptide_ID.like(search),
@@ -339,6 +372,11 @@ def tides():
 
             count_num = result_db.session.query(func.count(peptide.ID)).filter(
                 peptide.Type.like(strain_type),
+                and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     ),
                 or_(peptide.ID.like(search),
                     peptide.Number.like(search),
                     peptide.Peptide_ID.like(search),
@@ -352,6 +390,11 @@ def tides():
 
         else:
             result_db = peptide.query.filter(peptide.Type.like(strain_type),
+                 and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     ),
                  or_(peptide.ID.like(search),
                      peptide.Number.like(search),
                      peptide.Peptide_ID.like(search),
@@ -364,6 +407,11 @@ def tides():
 
             count_num = result_db.session.query(func.count(peptide.ID)).filter(
                 peptide.Type.like(strain_type),
+                and_(peptide.Length >= int(min),
+                     peptide.Length <= int(max),
+                     peptide.Activity >= int(minact),
+                     peptide.Activity <= int(maxact)
+                     ),
                 or_(peptide.ID.like(search),
                     peptide.Number.like(search),
                     peptide.Peptide_ID.like(search),
@@ -393,7 +441,6 @@ def tides():
     rst["data"] = alldata
 
     return rst
-
 
 @app.route('/up_file/', methods=['GET', 'POST'])  # 接受并存储文件
 def up_file():

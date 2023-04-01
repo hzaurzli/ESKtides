@@ -180,6 +180,38 @@
     <h3 id='name' style="text-align:left"></h3>
 	<br>
 	<hr>
+    <table border="0" cellspacing="5" cellpadding="5" height="130" style="float: left;margin: 0px;padding: 0px;">
+        <tbody>
+        <tr>
+            <td><h4><strong>Minimum length:</strong></h4></td>
+            <td><input type="text" id="min" name="min" value="6" size="50"></td>
+        </tr>
+
+        <tr>
+            <td><h4><strong>Maximum length:</strong></h4></td>
+            <td><input type="text" id="max" name="max" value="50" size="50"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table border="0" cellspacing="5" cellpadding="5" height="130" style="float: right;margin: 0px;padding: 0px;">
+        <tbody>
+        <tr>
+            <td><h4><strong>Minimum activity:</strong></h4></td>
+            <td><input type="text" id="minact" name="min" value="0" size="50"></td>
+        </tr>
+        <tr>
+            <td ><h4><strong>Maximum activity:</strong></h4></td>
+            <td><input type="text" id="maxact" name="max" value="1" size="50"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <button type="button" onclick="select()">Select</button><strong> Click to filter</strong>
+</div>
+<br>
+<br>
+<div class="container">
     <table class="table table-bordered table-hover" id="peptides" width="100%">
         <thead>
             <tr>
@@ -242,7 +274,7 @@ var getseq = function(x){
     };
 
      $.ajax({
-              url: "http://113.57.10.23:9000/download_file/", //json文件位置
+              url: "http://127.0.0.1:5000/download_file/", //json文件位置
               type: "GET", //请求方式为get
               dataType: "",
               data: my_data,
@@ -263,8 +295,53 @@ var getseq = function(x){
           })
 };
 
+function select(){
+    var table = $('#peptides').DataTable({
+    //"retrieve": true,
+    "serverSide":true,
+    "searching":true,
+    "processing":true,
+    "paging":true,
+    "retrieve": true,
+    //"bServerSide":true,
+    //"bProcessing":true,
+    //"bPaginate":true,
+    "ordering":true,
+    "lengthMenu": [15],
+    ajax: {
+        url: 'http://113.57.10.23:9000/tides/',
+        type: "GET",
+        data: function(d){// 添加额外的参数传递到后台
+            var name = $('#name').text();
+            var min = $('#min').val();
+            var max = $('#max').val();
+            var minact = $('#minact').val();
+            var maxact = $('#maxact').val();
+            d.extra_search = name + '=' + min + '=' + max + '=' + minact + '=' + maxact;
+        }
+    },
+    dom:'Bfrtip',
+    buttons:[
+      'copy','csv','excel','pdf','print'
+    ],
+    "columns":[
+      {'data':'Number'},
+      {'data':'Peptide_ID'},
+      {'data':'Seq',
+          render: function(data, type, row) {
+              return '<button onclick="getseq(\'' + row.Sequence + ',' +
+                  row.Peptide_ID + '-length=' + row.Length + ',' + '\')">' + data + '</button>'; }
+      },
+      {'data':'Length'},
+      {'data':'Activity'},
+      {'data':'Level'}
+    ],
+});
+    table.ajax.reload()
+}
+
 $(document).ready(function(){//生命周期函数，注意顺序
-    $('#peptides').DataTable({
+    var table = $('#peptides').DataTable({
         //"retrieve": true,
         "serverSide":true,
         "searching":true,
@@ -279,7 +356,12 @@ $(document).ready(function(){//生命周期函数，注意顺序
             url: 'http://113.57.10.23:9000/tides/',
             type: "GET",
             data: function(d){// 添加额外的参数传递到后台
-                d.extra_search = $('#name').text();
+                 var name = $('#name').text();
+                 var min = $('#min').val();
+                 var max = $('#max').val();
+                 var minact = $('#minact').val();
+                 var maxact = $('#maxact').val();
+                 d.extra_search = name + '=' + min + '=' + max + '=' + minact + '=' + maxact;
             }
         },
         dom:'Bfrtip',
@@ -298,7 +380,7 @@ $(document).ready(function(){//生命周期函数，注意顺序
           {'data':'Activity'},
           {'data':'Level'}
         ],
-    })
+    });
 });
 
 </script>

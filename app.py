@@ -315,16 +315,16 @@ def tides():
                 peptide.Type.like(strain_type),
                 and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      )).order_by(getattr(peptide, selection).desc())
 
             count_num = result_db.session.query(func.count(peptide.ID)).filter(
                 peptide.Type.like(strain_type),
                 and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      )
             ).scalar()  # 大数据对表计数的方法
             result = result_db.slice(int(page),int(page)+int(pageSize)).all() # 分页
@@ -333,8 +333,8 @@ def tides():
                 peptide.Type.like(strain_type),
                 and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      )).order_by(getattr(peptide, selection).asc())
 
             t1 = time.time()
@@ -342,8 +342,8 @@ def tides():
                 peptide.Type.like(strain_type),
                 and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      )
             ).scalar()  # 大数据对表计数的方法
             t2 = time.time()
@@ -357,8 +357,8 @@ def tides():
             result_db = peptide.query.filter(peptide.Type.like(strain_type),
                 and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      ),
                 or_(peptide.ID.like(search),
                     peptide.Number.like(search),
@@ -374,8 +374,8 @@ def tides():
                 peptide.Type.like(strain_type),
                 and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      ),
                 or_(peptide.ID.like(search),
                     peptide.Number.like(search),
@@ -392,8 +392,8 @@ def tides():
             result_db = peptide.query.filter(peptide.Type.like(strain_type),
                  and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      ),
                  or_(peptide.ID.like(search),
                      peptide.Number.like(search),
@@ -409,8 +409,8 @@ def tides():
                 peptide.Type.like(strain_type),
                 and_(peptide.Length >= int(min),
                      peptide.Length <= int(max),
-                     peptide.Activity >= int(minact),
-                     peptide.Activity <= int(maxact)
+                     peptide.Activity >= float(minact),
+                     peptide.Activity <= float(maxact)
                      ),
                 or_(peptide.ID.like(search),
                     peptide.Number.like(search),

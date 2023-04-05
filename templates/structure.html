@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
@@ -61,7 +61,7 @@
     <div class="container">
       <div class="navbar-header">
            <a class="navbar-brand" href="/ESKtides">ESKtides</a>
-		   
+
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -143,21 +143,22 @@
 <!-- Page Content-->
 <br>
 <br>
-<h3 style="text-align:center">Calculation for Peptides activity</h3><br>
+<!-- Page Content-->
+<h3 style="text-align:center">Calculation for Peptides Secondary structure</h3><br>
 <div class="container">
    <div class = "well" style="font-size: 16px;">
     <p><i class = "fa fa-info-circle"></i>
-        Here, we provide online calculation for peptides activity
+        Here, we provide online calculation for peptides secondary structure
     </p><br>
     <p><i class = "fa fa-info-circle"></i>
         Type or copy/paste the query protein sequences into the input box at the center,or upload a FASTA file.
         These input sequence should be in the FASTA format. Example sequences in FASTA format can be get by clicking on the "example" button;
         Click on the "submit" button to see the predicted result. You will see the outcomes shown on the screen of your computer.
 		</p>
-    <p><b>Please input query sequences:</b></p>
+    <p><b>Please input query sequences:</b>(Once not more than <b>10</b> sequences, sequence length should not exceed <b>50</b> AA)</p>
 		<fieldset  align="center">
 			<br>
-			<input type="radio" name="preType" value="ly" checked="checked" style="font-size: 14px;"> Calculation for Peptides activity</input>&nbsp;&nbsp;
+			<input type="radio" name="preType" value="ly" checked="checked" style="font-size: 14px;"> Calculation for Peptides Secondary structure</input>&nbsp;&nbsp;
 		</fieldset>
 		<br>
 		<textarea id="enter" name="enter" style="width: 780px;height: 270px; border:1px solid #46c8ef;margin-left: 50px"></textarea><!--序列输入框-->
@@ -172,6 +173,10 @@
 		<input type="button" value="example" onclick="fillExample()" name = "example"></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="reset" value="clear" onclick="resetInput()"></input>
 		</fieldset>
+   <br><br>
+    <p><i class = "fa fa-info-circle"></i>
+         For peptides secondary structure: <b>H (a-helix), G (3,0-helix), I (一helix), E (extendedstrand), B (residuein b.bridge), T (turn), S (bend).</b>
+		</p>
   </div>
 
     <div id="loading"></div>
@@ -216,6 +221,7 @@
                  }
             }
         
+        
            //获取 输入框的值
            var seq = document.getElementById("enter").value;
            console.log(seq);
@@ -223,12 +229,13 @@
            dat = {"seq": seq};
            console.log(dat);
            $.ajax({
-               url: "http://113.57.10.23:9000/input_up_file/",
+               url: "http://113.57.10.23:9000/structure_input_up_file/",
+               timeout: 9000000000,
                data: dat,
                type: "get",//一律用get请求
-               dataType: "",
+               dataType: "json",
                beforeSend: function () {
-                   $("#loading").html("<h4 style='text-align:center'>Please wait!!!</h4><img src='../static/image/loading.gif' class='aligncenter'>")
+                   $("#loading").html("<h4 style='text-align:center'>Please wait for 5-8mins!!!</h4><img src='../static/image/loading.gif' class='aligncenter'>")
                    $("#table").empty()
                },
                complete: function () {
@@ -238,37 +245,38 @@
                          console.log(response.status);
                          if(response.status == 408){
                              while(true){
-                                 var Exists=fileExists('http://113.57.10.23:9000/static/predictdata/result-act-json.txt');
+                                 var Exists=fileExists('http://113.57.10.23:9000/static/structure/structure-json.txt');
                                  console.log(Exists);
                                  if(Exists){
-                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
-      
-                                  $('#peptides').DataTable({
-                                          //"retrieve": true,
-                                          //"serverSide":true,
-                                          "searching":true,
-                                          "processing":true,
-                                          "paging":true,
-                                          //"bServerSide":true,
-                                          //"bProcessing":true,
-                                          // "bPaginate":true,
-                                          "ordering":true,
-                                          ajax: {
-                                              url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
-                                              timeout: 60000,
-                                              type: "GET"
-                                          },
-                                          dom:'Bfrtip',
-                                          buttons:[
-                                            'copy','csv','excel','pdf','print'
-                                          ],
-                                          "columns":[
-                                            {'data':'ID'},
-                                            {'data':'ORF'},
-                                            {'data':'Sequence'},
-                                            {'data':'Score'}
-                                          ],
-                                      });
+                                   $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Structure</th></tr></thead><tbody></tbody></table>')
+
+                                   $('#peptides').DataTable({
+                                                //"retrieve": true,
+                                                //"serverSide":true,
+                                                "searching":true,
+                                                "processing":true,
+                                                "paging":true,
+                                                //"bServerSide":true,
+                                                //"bProcessing":true,
+                                                // "bPaginate":true,
+                                                "ordering":true,
+                                                ajax: {
+                                                    url: 'http://113.57.10.23:9000/static/structure/structure-json.txt',
+                                                    timeout: 9000000000,
+                                                    type: "GET"
+                                                },
+                                                dom:'Bfrtip',
+                                                buttons:[
+                                                  'copy','csv','excel','pdf','print'
+                                                ],
+                                                "columns":[
+                                                  {'data':'ID'},
+                                                  {'data':'Peptide'},
+                                                  {'data':'Structure'}
+                                                ],
+                                            })
                                       break;
                                  }
                                  else{
@@ -282,9 +290,9 @@
                        }  
                      },
                success: function (result) {
-                   console.log(result);
-                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
-                   
+                   $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Structure</th></tr></thead><tbody></tbody></table>')
 
                    $('#peptides').DataTable({
                                 //"retrieve": true,
@@ -297,8 +305,8 @@
                                 // "bPaginate":true,
                                 "ordering":true,
                                 ajax: {
-                                    url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
-                                    timeout: 60000,
+                                    url: 'http://113.57.10.23:9000/static/structure/structure-json.txt',
+                                    timeout: 9000000000,
                                     type: "GET"
                                 },
                                 dom:'Bfrtip',
@@ -307,9 +315,8 @@
                                 ],
                                 "columns":[
                                   {'data':'ID'},
-                                  {'data':'ORF'},
-                                  {'data':'Sequence'},
-                                  {'data':'Score'}
+                								  {'data':'Peptide'},
+                								  {'data':'Structure'}
                                 ],
                             })
                },
@@ -328,81 +335,83 @@
         if(typeof(fileObj)=='undefined'){
             alert("Please add your Fasta file!!")
         }else {
-              function sleep(n) { //n表示的毫秒数
-                var start = new Date().getTime();
-                while (true) if (new Date().getTime() - start > n) break;
+            function sleep(n) { //n表示的毫秒数
+              var start = new Date().getTime();
+              while (true) if (new Date().getTime() - start > n) break;
+            }
+        
+            function fileExists(url) {
+                   var isExists;
+                   $.ajax({
+                       url: url,
+                       async: false,
+                       type: 'HEAD',
+                       error: function () {
+                           isExists = 0;
+                       },
+                       success: function () {
+                           isExists = 1;
+                       }
+                   });
+                   if (isExists == 1) {
+                       return true;
+                   } else {
+                       return false;
+                   }
               }
-          
-              function fileExists(url) {
-                     var isExists;
-                     $.ajax({
-                         url: url,
-                         async: false,
-                         type: 'HEAD',
-                         error: function () {
-                             isExists = 0;
-                         },
-                         success: function () {
-                             isExists = 1;
-                         }
-                     });
-                     if (isExists == 1) {
-                         return true;
-                     } else {
-                         return false;
-                     }
-                }
         
              $.ajax({
-                    url: "http://113.57.10.23:9000/up_file/",
+                    url: "http://113.57.10.23:9000/structure_up_file/",
+                    timeout: 9000000000,
                     data: form_data,
                     type: "post",
-                    dataType: "text",
+                    dataType: "json",
                     cache: false,//上传文件无需缓存
                     processData: false,//用于对data参数进行序列化处理 这里必须false
                     contentType: false, //必须
                     beforeSend:function(){
-                        $("#loading").html("<h4 style='text-align:center'>Please wait!!!</h4><img src='../static/image/loading.gif' class='aligncenter'>")
+                        $("#loading").html("<h4 style='text-align:center'>Please wait for 5-8mins!!!</h4><img src='../static/image/loading.gif' class='aligncenter'>")
                         $("#table").empty()
                     },
                     complete:function(){
                         $("#loading").empty()
                     },
-                  error: function (response,status,xhr) {
+                    error: function (response,status,xhr) {
                          console.log(response.status);
                          if(response.status == 408){
                              while(true){
-                                 var Exists=fileExists('http://113.57.10.23:9000/static/predictdata/result-act-json.txt');
+                                 var Exists=fileExists('http://113.57.10.23:9000/static/structure/structure-json.txt');
                                  console.log(Exists);
                                  if(Exists){
-                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
-      
-                                  $('#peptides').DataTable({
-                                          //"retrieve": true,
-                                          //"serverSide":true,
-                                          "searching":true,
-                                          "processing":true,
-                                          "paging":true,
-                                          //"bServerSide":true,
-                                          //"bProcessing":true,
-                                          // "bPaginate":true,
-                                          "ordering":true,
-                                          ajax: {
-                                              url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
-                                              timeout: 60000,
-                                              type: "GET"
-                                          },
-                                          dom:'Bfrtip',
-                                          buttons:[
-                                            'copy','csv','excel','pdf','print'
-                                          ],
-                                          "columns":[
-                                            {'data':'ID'},
-                                            {'data':'ORF'},
-                                            {'data':'Sequence'},
-                                            {'data':'Score'}
-                                          ],
-                                      });
+                                   $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Structure</th></tr></thead><tbody></tbody></table>')
+
+                                   $('#peptides').DataTable({
+                                                //"retrieve": true,
+                                                //"serverSide":true,
+                                                "searching":true,
+                                                "processing":true,
+                                                "paging":true,
+                                                //"bServerSide":true,
+                                                //"bProcessing":true,
+                                                // "bPaginate":true,
+                                                "ordering":true,
+                                                ajax: {
+                                                    url: 'http://113.57.10.23:9000/static/structure/structure-json.txt',
+                                                    timeout: 9000000000,
+                                                    type: "GET"
+                                                },
+                                                dom:'Bfrtip',
+                                                buttons:[
+                                                  'copy','csv','excel','pdf','print'
+                                                ],
+                                                "columns":[
+                                                      {'data':'ID'},
+                          													  {'data':'Peptide'},
+                          													  {'data':'Structure'}
+                                                ],
+                                            })
                                       break;
                                  }
                                  else{
@@ -416,7 +425,9 @@
                        }  
                      },
                     success:function(result) {
-                         $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%"><thead><tr><th>ID</th><th>ORF</th><th>Sequence</th><th>Score</th></tr></thead><tbody></tbody></table>')
+                        $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Structure</th></tr></thead><tbody></tbody></table>')
 
                         $('#peptides').DataTable({
                                 //"retrieve": true,
@@ -429,8 +440,8 @@
                                 // "bPaginate":true,
                                 "ordering":true,
                                 ajax: {
-                                    url: 'http://113.57.10.23:9000/static/predictdata/result-act-json.txt',
-                                    timeout: 60000,
+                                    url: 'http://113.57.10.23:9000/static/structure/structure-json.txt',
+                                    timeout: 9000000000,
                                     type: "GET"
                                 },
                                 dom:'Bfrtip',
@@ -439,9 +450,8 @@
                                 ],
                                 "columns":[
                                   {'data':'ID'},
-                                  {'data':'ORF'},
-                                  {'data':'Sequence'},
-                                  {'data':'Score'}
+                								  {'data':'Peptide'},
+                								  {'data':'Structure'}
                                 ],
                             })
                     },
@@ -512,9 +522,6 @@
       &copy; All rights reserved by <a target="_blank" href="https://lijinquanlab.github.io/index.html">Jinquan Li's Lab</a>, HZAU.</p>
   </div>
 </footer>
-<script type="text/javascript">
 
-
-</script>
 </body> 
 </html> 

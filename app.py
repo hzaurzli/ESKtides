@@ -8,6 +8,7 @@ from numpy import loadtxt, savetxt
 import sys,os
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 import json
+from subprocess import *
 
 
 app = Flask(__name__)
@@ -77,7 +78,6 @@ def predict():
 def phylotree():
     return render_template('phylotree.html')
 
-
 @app.route('/phylo.html', methods=['get', 'post'])
 def phylo():
     return render_template('phylo.html')
@@ -85,6 +85,10 @@ def phylo():
 @app.route('/property.html', methods=['get', 'post'])
 def property():
     return render_template('property.html')
+    
+@app.route('/structure.html', methods=['get', 'post'])
+def structure():
+    return render_template('structure.html')
 
 @app.route('/statistics.html', methods=['get', 'post'])
 def statistics():
@@ -497,15 +501,17 @@ def input_up_file():
 @app.route('/propert_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
 def propert_up_file():
     if request.method == "POST":
+        if os.path.exists('./static/propert/propert-json.txt'):
+            os.remove('./static/propert/propert-json.txt')
+            
         f = request.files['file']
         print(f.filename)
         f.save('./static/propert/' + f.filename)
         time.sleep(3)
-        
-        if os.path.exists('./static/propert/propert-json.txt'):
-            os.remove('./static/propert/propert-json.txt')
+        cmd = "/home/ESKtides/run.sh %s" % ('./static/propert/' + f.filename)
+        run(cmd=cmd)
             
-        rst = propert('./static/propert/' + f.filename)
+        rst = propert('./static/propert/index.csv','./static/propert/' + f.filename)
 
         return rst
 
@@ -514,13 +520,58 @@ def propert_up_file():
 @app.route('/propert_input_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
 def propert_input_up_file():
     if request.method == "GET":
+        if os.path.exists('./static/propert/propert-json.txt'):
+            os.remove('./static/propert/propert-json.txt')
+    
         with open('./static/propert/input.fa','w') as fa:
             data = request.args.get('seq').strip()
             fa.write(data)
         fa.close()
-
         time.sleep(3)
-        rst = propert('./static/propert/input.fa')
+        cmd = "/home/ESKtides/run.sh %s" % ('./static/propert/input.fa')
+        run(cmd=cmd)
+        
+        rst = propert('./static/propert/index.csv','./static/propert/input.fa')
+        print(rst)
+
+        return rst
+
+
+
+@app.route('/structure_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
+def structure_up_file():
+    if request.method == "POST":
+        if os.path.exists('./static/structure/structure-json.txt'):
+            os.remove('./static/structure/structure-json.txt')
+            
+        f = request.files['file']
+        print(f.filename)
+        f.save('./static/structure/' + f.filename)
+        time.sleep(3)
+        cmd = "/home/ESKtides/run_structure.sh %s" % ('./static/structure/' + f.filename)
+        run(cmd=cmd)
+            
+        rst = structure('./static/structure/test.out.ss8')
+
+        return rst
+
+
+
+@app.route('/structure_input_up_file/', methods=['GET', 'POST'])  # 接受并存储文件
+def structure_input_up_file():
+    if request.method == "GET":
+        if os.path.exists('./static/structure/structure-json.txt'):
+            os.remove('./static/structure/structure-json.txt')
+            
+        with open('./static/structure/input.fa','w') as fa:
+            data = request.args.get('seq').strip()
+            fa.write(data)
+        fa.close()
+        time.sleep(3)
+        cmd = "/home/ESKtides/run_structure.sh %s" % ('./static/structure/input.fa')
+        run(cmd=cmd)
+        
+        rst = structure('./static/structure/test.out.ss8')
         print(rst)
 
         return rst
@@ -546,6 +597,12 @@ def detail(Strains):
     return render_template('strains2.html')
 
 ###############################################cal
+def run(cmd, wkdir=None):
+      sys.stderr.write("Running %s ...\n" % cmd)
+      p = Popen(cmd, shell=True, cwd=wkdir)
+      p.wait()
+      return p.returncode
+
 
 def calculation(fasta):
     path = './static/predictdata'    
@@ -612,10 +669,36 @@ def calculation(fasta):
     return rst
 
 
-def propert(file):
+def propert(fileA,fileB):
+    f = open(fileA)
+    dic = {}
+    for i in f:
+        if i.startswith('n'):
+            pass
+        else:
+            li = i.strip().split(',')
+            key = li[0]
+            length = li[1]
+            molecular_weight = li[2]
+            instability = li[3]
+            hydrophobicity = li[4]
+            hydrophobic_moment = li[5]
+            aliphatic = li[6]
+            pI = li[7]
+            charge = li[8]
+            dic.setdefault(key,[]).append(length)
+            dic.setdefault(key, []).append(molecular_weight)
+            dic.setdefault(key, []).append(instability)
+            dic.setdefault(key, []).append(hydrophobicity)
+            dic.setdefault(key, []).append(hydrophobic_moment)
+            dic.setdefault(key, []).append(aliphatic)
+            dic.setdefault(key, []).append(pI)
+            dic.setdefault(key, []).append(charge)
+    
     sequence = ' '
     fasta = {}
-    with open(file) as file_one:
+    f = fileB
+    with open(f) as file_one:
         for line in file_one:
             line = line.strip()
             if not line:
@@ -627,34 +710,66 @@ def propert(file):
                 continue
             sequence = line
             fasta[active_sequence_name].append(sequence)
-
+    
     count = 1
     alldata = []
-    path = './static/propert/'
-    with open(path + '/propert-json.txt', 'w') as json:
+    with open('./static/propert/propert-json.txt', 'w') as json:
         for key in fasta:
             X = ProteinAnalysis(fasta[key][0])
-            mw = "%0.2f" % X.molecular_weight()
-            ar = "%0.2f" % X.aromaticity()
-            ii = "%0.2f" % X.instability_index()
-            ip = "%0.2f" % X.isoelectric_point()
-            sec_struc = X.secondary_structure_fraction()
-            ss = "%0.2f" % sec_struc[0]
-            charge = "%0.2f" % X.charge_at_pH(7)
-            print(ss)
-            data = {"ID": count, "Peptide": key,
-                    "Molecular weight": mw,
-                    "Aromaticity": ar, "Instability index": ii,
-                    "Isoelectric point": ip, "Charge": charge,
-                    "Secondary structure fraction": ss}
+            gr = "%0.2f" % X.gravy()
+            print(gr)
+            data = {"ID": count,
+                    "Peptide": key,
+                    "Length": dic[key][0],
+                    "Molecular_weight": dic[key][1],
+                    "Instability": dic[key][2],
+                    "Hydrophobicity": dic[key][3],
+                    "Hydrophobic_moment": dic[key][4],
+                    "Aliphatic": dic[key][5],
+                    "pI": dic[key][6],
+                    "Charge": dic[key][7],
+                    "Gravy": gr
+                    }
             count += 1
             alldata.append(data)
             rst = {}
             rst["data"] = alldata
         json.write(str(rst).replace("'", "\""))  # JSON 格式一定要求双引号
-    json.close()
-    
+        json.close()
+      
     return rst
-
+    
+    
+def structure(file):
+  fasta_name = file
+  with open(fasta_name) as fa:
+      fa_dict = {}
+      for line in fa:
+          line = line.replace('\n', '')
+          if line.startswith('>'):
+              seq_name = line[1:]
+              fa_dict[seq_name] = ''
+          else:
+              fa_dict[seq_name] += line.replace('\n', '')
+              
+              
+  count = 1
+  alldata = []
+  with open('./static/structure/structure-json.txt', 'w') as json:
+        for key in fa_dict:
+            data = {"ID": count,
+                    "Peptide": key,
+                    "Structure": fa_dict[key] 
+                    }
+            count += 1
+            alldata.append(data)
+            rst = {}
+            rst["data"] = alldata
+        json.write(str(rst).replace("'", "\""))  # JSON 格式一定要求双引号
+  json.close()
+        
+  return rst
+  
+    
 if __name__ == "__main__":
     app.run("113.57.10.23",port=9000)

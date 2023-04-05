@@ -131,6 +131,7 @@
                 <li><a href="/predict.html">Peptides activity Prediction</a></li>
                 <li><a href="/phylotree.html">Peptides Phylogenetic tree</a></li>
                 <li><a href="/property.html">Physicochemical property</a></li>
+				        <li><a href="/structure.html">Peptides secondary structure</a></li>
             </ul>
         </li>
         <li><a href="/statistics.html">Statistics</a></li>
@@ -243,9 +244,11 @@
                                  var Exists=fileExists('http://113.57.10.23:9000/static/propert/propert-json.txt');
                                  console.log(Exists);
                                  if(Exists){
-                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
-                       '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +
-                       '<th>Isoelectric point</th><th>Charge</th><th>Secondary structure fraction</th></tr></thead>' +
+                                   $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Length</th><th>Molecular weight</th><th>Instability</th>' +
+                       '<th>Hydrophobicity</th><th>Hydrophobic moment</th><th>Aliphatic</th><th>pI</th><th>Charge</th>' + 
+                       '<th>Gravy</th></tr></thead>' +
                        '<tbody></tbody></table>')
 
                                    $('#peptides').DataTable({
@@ -270,12 +273,15 @@
                                                 "columns":[
                                                   {'data':'ID'},
                                                   {'data':'Peptide'},
-                                                  {'data':'Molecular weight'},
-                                                  {'data':'Aromaticity'},
-                                                  {'data':'Instability index'},
-                                                  {'data':'Isoelectric point'},
+                                                  {'data':'Length'},
+                                                  {'data':'Molecular_weight'},
+                                                  {'data':'Instability'},
+                                                  {'data':'Hydrophobicity'},
+                                                  {'data':'Hydrophobic_moment'},
+                                                  {'data':'Aliphatic'},
+                                                  {'data':'pI'},
                                                   {'data':'Charge'},
-                                                  {'data':'Secondary structure fraction'}
+                                                  {'data':'Gravy'}
                                                 ],
                                             })
                                       break;
@@ -291,9 +297,11 @@
                        }  
                      },
                success: function (result) {
-                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
-                       '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +
-                       '<th>Isoelectric point</th><th>Charge</th><th>Secondary structure fraction</th></tr></thead>' +
+                   $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Length</th><th>Molecular weight</th><th>Instability</th>' +
+                       '<th>Hydrophobicity</th><th>Hydrophobic moment</th><th>Aliphatic</th><th>pI</th><th>Charge</th>' + 
+                       '<th>Gravy</th></tr></thead>' +
                        '<tbody></tbody></table>')
 
                    $('#peptides').DataTable({
@@ -318,12 +326,15 @@
                                 "columns":[
                                   {'data':'ID'},
                                   {'data':'Peptide'},
-                                  {'data':'Molecular weight'},
-                                  {'data':'Aromaticity'},
-                                  {'data':'Instability index'},
-                                  {'data':'Isoelectric point'},
+                                  {'data':'Length'},
+                                  {'data':'Molecular_weight'},
+                                  {'data':'Instability'},
+                                  {'data':'Hydrophobicity'},
+                                  {'data':'Hydrophobic_moment'},
+                                  {'data':'Aliphatic'},
+                                  {'data':'pI'},
                                   {'data':'Charge'},
-                                  {'data':'Secondary structure fraction'}
+                                  {'data':'Gravy'}
                                 ],
                             })
                },
@@ -390,9 +401,11 @@
                                  var Exists=fileExists('http://113.57.10.23:9000/static/propert/propert-json.txt');
                                  console.log(Exists);
                                  if(Exists){
-                                   $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
-                       '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +
-                       '<th>Isoelectric point</th><th>Charge</th><th>Secondary structure fraction</th></tr></thead>' +
+                                   $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Length</th><th>Molecular weight</th><th>Instability</th>' +
+                       '<th>Hydrophobicity</th><th>Hydrophobic moment</th><th>Aliphatic</th><th>pI</th><th>Charge</th>' + 
+                       '<th>Gravy</th></tr></thead>' +
                        '<tbody></tbody></table>')
 
                                    $('#peptides').DataTable({
@@ -415,14 +428,17 @@
                                                   'copy','csv','excel','pdf','print'
                                                 ],
                                                 "columns":[
-                                                  {'data':'ID'},
-                                                  {'data':'Peptide'},
-                                                  {'data':'Molecular weight'},
-                                                  {'data':'Aromaticity'},
-                                                  {'data':'Instability index'},
-                                                  {'data':'Isoelectric point'},
-                                                  {'data':'Charge'},
-                                                  {'data':'Secondary structure fraction'}
+                                                    {'data':'ID'},
+                                                    {'data':'Peptide'},
+                                                    {'data':'Length'},
+                                                    {'data':'Molecular_weight'},
+                                                    {'data':'Instability'},
+                                                    {'data':'Hydrophobicity'},
+                                                    {'data':'Hydrophobic_moment'},
+                                                    {'data':'Aliphatic'},
+                                                    {'data':'pI'},
+                                                    {'data':'Charge'},
+                                                    {'data':'Gravy'}
                                                 ],
                                             })
                                       break;
@@ -438,10 +454,12 @@
                        }  
                      },
                     success:function(result) {
-                        $("#table").html('<h4 style="text-align:center">Result</h4><table class="table table-bordered table-hover" id="peptides" width="100%">' +
-                            '<thead><tr><th>ID</th><th>Peptide</th><th>Molecular weight</th><th>Aromaticity</th><th>Instability index</th>' +
-                            '<th>Isoelectric point</th><th>Charge</th><th>Secondary structure fraction</th></tr></thead>' +
-                            '<tbody></tbody></table>')
+                        $("#table").html('<h4 style="text-align:center">Result</h4>' +
+                                   '<table class="table table-bordered table-hover" id="peptides" width="100%">' +
+                       '<thead><tr><th>ID</th><th>Peptide</th><th>Length</th><th>Molecular weight</th><th>Instability</th>' +
+                       '<th>Hydrophobicity</th><th>Hydrophobic moment</th><th>Aliphatic</th><th>pI</th><th>Charge</th>' + 
+                       '<th>Gravy</th></tr></thead>' +
+                       '<tbody></tbody></table>')
 
                         $('#peptides').DataTable({
                                 //"retrieve": true,
@@ -465,12 +483,15 @@
                                 "columns":[
                                   {'data':'ID'},
                                   {'data':'Peptide'},
-                                  {'data':'Molecular weight'},
-                                  {'data':'Aromaticity'},
-                                  {'data':'Instability index'},
-                                  {'data':'Isoelectric point'},
+                                  {'data':'Length'},
+                                  {'data':'Molecular_weight'},
+                                  {'data':'Instability'},
+                                  {'data':'Hydrophobicity'},
+                                  {'data':'Hydrophobic_moment'},
+                                  {'data':'Aliphatic'},
+                                  {'data':'pI'},
                                   {'data':'Charge'},
-                                  {'data':'Secondary structure fraction'}
+                                  {'data':'Gravy'}
                                 ],
                             })
                     },

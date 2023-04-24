@@ -252,12 +252,12 @@ document.addEventListener('DOMContentLoaded',function(){//生命周期函数，�
           obj[params[0]] = params[1]
         }
 	  if(obj.strains.split('_')[2]=='phages'){
-		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' ' + obj.strains.split('_')[2] + ' Peptides';
-		console.log(name)
+  		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' ' + obj.strains.split('_')[2] + ' Peptides';
+  		console.log(name)
 	  }
 	  else{
-		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Peptides' ;
-		console.log(name)
+  		var name = obj.strains.split('_')[0] + ' ' + obj.strains.split('_')[1] + ' Peptides' ;
+  		console.log(name)
 	  }	
     }
 	$("#name").html(name);
@@ -311,7 +311,7 @@ function select(){
     "lengthMenu": [15],
     ajax: {
         url: 'http://113.57.10.23:9000/tides/',
-	timeout: 6000000000,
+        timeout: 6000000000,
         type: "GET",
         data: function(d){// 添加额外的参数传递到后台
             var name = $('#name').text();
@@ -356,7 +356,7 @@ $(document).ready(function(){//生命周期函数，注意顺序
         "lengthMenu": [15],
         ajax: {
             url: 'http://113.57.10.23:9000/tides/',
-	    timeout: 6000000000,	
+            timeout: 6000000000,
             type: "GET",
             data: function(d){// 添加额外的参数传递到后台
                  var name = $('#name').text();

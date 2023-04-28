@@ -275,7 +275,7 @@ var getseq = function(x){
     };
 
      $.ajax({
-              url: "http://113.57.10.23:9000/download_file/", //json文件位置
+              url: "http://www.phageonehealth.cn:9000/download_file/", //json文件位置
               type: "GET", //请求方式为get
               dataType: "",
               data: my_data,
@@ -310,7 +310,7 @@ function select(){
     "ordering":true,
     "lengthMenu": [15],
     ajax: {
-        url: 'http://113.57.10.23:9000/tides/',
+        url: 'http://www.phageonehealth.cn:9000/tides/',
         timeout: 6000000000,
         type: "GET",
         data: function(d){// 添加额外的参数传递到后台
@@ -355,7 +355,7 @@ $(document).ready(function(){//生命周期函数，注意顺序
         "ordering":true,
         "lengthMenu": [15],
         ajax: {
-            url: 'http://113.57.10.23:9000/tides/',
+            url: 'http://www.phageonehealth.cn:9000/tides/',
             timeout: 6000000000,
             type: "GET",
             data: function(d){// 添加额外的参数传递到后台

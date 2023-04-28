@@ -225,7 +225,7 @@
            dat = {"seq": seq};
            console.log(dat);
            $.ajax({
-               url: "http://113.57.10.23:9000/propert_input_up_file/",
+               url: "http://www.phageonehealth.cn:9000/propert_input_up_file/",
                timeout: 60000,
                data: dat,
                type: "get",//一律用get请求
@@ -241,7 +241,7 @@
                          console.log(response.status);
                          if(response.status == 408){
                              while(true){
-                                 var Exists=fileExists('http://113.57.10.23:9000/static/propert/propert-json.txt');
+                                 var Exists=fileExists('http://www.phageonehealth.cn:9000/static/propert/propert-json.txt');
                                  console.log(Exists);
                                  if(Exists){
                                    $("#table").html('<h4 style="text-align:center">Result</h4>' +
@@ -262,7 +262,7 @@
                                                 // "bPaginate":true,
                                                 "ordering":true,
                                                 ajax: {
-                                                    url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                                    url: 'http://www.phageonehealth.cn:9000/static/propert/propert-json.txt',
                                                     timeout: 60000,
                                                     type: "GET"
                                                 },
@@ -315,7 +315,7 @@
                                 // "bPaginate":true,
                                 "ordering":true,
                                 ajax: {
-                                    url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                    url: 'http://www.phageonehealth.cn:9000/static/propert/propert-json.txt',
                                     timeout: 60000,
                                     type: "GET"
                                 },
@@ -379,7 +379,7 @@
               }
         
              $.ajax({
-                    url: "http://113.57.10.23:9000/propert_up_file/",
+                    url: "http://www.phageonehealth.cn:9000/propert_up_file/",
                     timeout: 60000,
                     data: form_data,
                     type: "post",
@@ -398,7 +398,7 @@
                          console.log(response.status);
                          if(response.status == 408){
                              while(true){
-                                 var Exists=fileExists('http://113.57.10.23:9000/static/propert/propert-json.txt');
+                                 var Exists=fileExists('http://www.phageonehealth.cn:9000/static/propert/propert-json.txt');
                                  console.log(Exists);
                                  if(Exists){
                                    $("#table").html('<h4 style="text-align:center">Result</h4>' +
@@ -419,7 +419,7 @@
                                                 // "bPaginate":true,
                                                 "ordering":true,
                                                 ajax: {
-                                                    url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                                    url: 'http://www.phageonehealth.cn:9000/static/propert/propert-json.txt',
                                                     timeout: 60000,
                                                     type: "GET"
                                                 },
@@ -472,7 +472,7 @@
                                 // "bPaginate":true,
                                 "ordering":true,
                                 ajax: {
-                                    url: 'http://113.57.10.23:9000/static/propert/propert-json.txt',
+                                    url: 'http://www.phageonehealth.cn:9000/static/propert/propert-json.txt',
                                     timeout: 60000,
                                     type: "GET"
                                 },

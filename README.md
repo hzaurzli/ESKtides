@@ -30,7 +30,7 @@ gunicorn -w 4 -b 0.0.0.0:5000 app:app --timeout 360
 ```
 
 ## Phylogeny
-Run ../static/phylogeny.html in a new session
+Run /.../.../phylogeny-tree.html in a new session
 
 ## Citions
 If it is useful for you, please cite https://github.com/hzaurzli/ESKtides/

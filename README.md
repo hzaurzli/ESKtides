@@ -3,7 +3,9 @@ The online serve: http://www.phageonehealth.cn:9000/ESKtides<br>
 tensorflow: 1.5.0<br>
 Keras: 2.2.4
 
-**phy-tree_plugins.rar is a compressed package of the phylogenetic tree, which contains the html file and static file of the plugin**
+### Some plugins
+**1.phy-tree_plugins.rar** is a compressed package of the phylogenetic tree, which contains the html file and static file of the plugin
+**2.SCRATCH-1D** download from https://download.igb.uci.edu/, SCRATCH-1D release 1.1
 
 ### ESKtides database
 ESKtides (ESKAPE derived peptides database): Under the concept of one health, human beings are constantly pursuing a completely new state: the optimal health of people.Antibiotic resistance is one of the biggest threats in global health, food security and development, animals and the environment. Phage lysin is a kind of enzyme synthesized by host bacteria, which has strong host specificity and can hydrolyze the cell wall of bacteria efficiently. The length of antimicrobial peptides is about 6-50 aa, shorter than that of lysin, and easier to be absorbed by the body. In this study, a new antimicrobial peptide mining method based on phage lysins was proposed, we developed a workflow based on phage lysins to mine phage-derived peptide, and used a deep learning model to score bactericidal activity of phage.

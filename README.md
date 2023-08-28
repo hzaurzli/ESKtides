@@ -11,7 +11,7 @@ Keras: 2.2.4
 ### ESKtides database
 ESKtides (ESKAPE derived peptides database): Under the concept of one health, human beings are constantly pursuing a completely new state: the optimal health of people.Antibiotic resistance is one of the biggest threats in global health, food security and development, animals and the environment. Phage lysin is a kind of enzyme synthesized by host bacteria, which has strong host specificity and can hydrolyze the cell wall of bacteria efficiently. The length of antimicrobial peptides is about 6-50 aa, shorter than that of lysin, and easier to be absorbed by the body. In this study, a new antimicrobial peptide mining method based on phage lysins was proposed, we developed a workflow based on phage lysins to mine phage-derived peptide, and used a deep learning model to score bactericidal activity of phage.
 
-![ESKtides](https://user-images.githubusercontent.com/47686371/235088077-9c114ec9-5abd-4c74-8db4-eb6ce0aa46cb.png)
+![ESKtides](https://github.com/hzaurzli/ESKtides/assets/47686371/f5bd4d96-cca8-4fdf-8045-6b8ba029717b)
 
 Antibiotic resistance is one of the biggest threats in global health, food security and development, antimicrobial peptide(AMPs) possess exceptional structural and functional variety, natural AMPs have been proposed as promising alternatives to traditional antibiotics and as potential next-generation antimicrobial agents (Payel Das et al 2021). ESKAPE is a huge challenge for public health. AMPs mined from the host often have good bactericidal effect on the host. In this study, We mined natural peptides based on ESKAPE peptidoglycan hydrolases based on ESKAPE strains and their phages.
 

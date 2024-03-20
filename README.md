@@ -38,6 +38,6 @@ gunicorn -w 4 -b 0.0.0.0:5000 app:app --timeout 360
 Run /.../.../phylogeny-tree.html in a new session
 
 ## Citions
-If it is useful for you, please cite https://github.com/hzaurzli/ESKtides/
+If it is usefull for you, please cite https://github.com/hzaurzli/ESKtides/
 
 Now, ESKtides is published on "Database-the Journal Of Biological Databases And Curation", please cite "ESKtides: a comprehensive database and mining method for ESKAPE phage-derived antimicrobial peptides" if is usefull.

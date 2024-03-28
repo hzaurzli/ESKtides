@@ -40,4 +40,4 @@ Run /.../.../phylogeny-tree.html in a new session
 ## Citions
 If it is usefull for you, please cite https://github.com/hzaurzli/ESKtides/
 
-Now, ESKtides is published on "Database-the Journal Of Biological Databases And Curation", please cite "ESKtides: a comprehensive database and mining method for ESKAPE phage-derived antimicrobial peptides" if is usefull.
+Now, ESKtides is published on "Database-the Journal Of Biological Databases And Curation", please cite "Hongfang Wu, Rongxian Chen, Xuejian Li, Yue Zhang, Jianwei Zhang, Yanbo Yang, Jun Wan, Yang Zhou, Huanchun Chen, Jinquan Li, Runze Li, Geng Zou, ESKtides: a comprehensive database and mining method for ESKAPE phage-derived antimicrobial peptides, Database, Volume 2024, 2024, baae022, https://doi.org/10.1093/database/baae022" if is usefull.
